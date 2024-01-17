@@ -23,6 +23,11 @@ public class Slime : MonoBehaviour
         
     }
 
+    public void OccupyHex(Hex hex)
+    {
+        occupiedSpaces.Add(hex);
+    }
+
     public void OnTurnStart()
     {
         if(MoistureCount < occupiedSpaces.Count)

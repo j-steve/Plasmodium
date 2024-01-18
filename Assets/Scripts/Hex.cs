@@ -14,6 +14,19 @@ public class Hex : MonoBehaviour
     public int CurrentMoisture { get; set; }
 
 
+    private HexCoordinates coordinates;
+
+    /// <summary>
+    /// Constructs the hex on initial instantiation.
+    /// </summary>
+    public void Initialize(HexCoordinates coordinates)
+    {
+        // Calculate the position for this Hex
+        this.coordinates = coordinates;
+        transform.position = coordinates.ToWorldPosition();
+        name = "Hex " + coordinates.ToString();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,12 +35,6 @@ public class Hex : MonoBehaviour
         CurrentMoisture = StartingMoisture;
         CurrentNutrients = StartingNutrients;
         CurrentOxygen = StartingOxygen;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public bool AbsorbOxygen()

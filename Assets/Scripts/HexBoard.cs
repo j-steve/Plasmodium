@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(GameManager))]
 public class HexBoard : MonoBehaviour
 {
     public static HexBoard Active;
@@ -11,6 +12,8 @@ public class HexBoard : MonoBehaviour
     public Dictionary<HexCoordinates, Hex> Hexes = new Dictionary<HexCoordinates, Hex>();
 
     public int BoardRadius; // The radius of the board (in hexes)
+
+    [SerializeField] GameManager gameManager;
 
 
     /// <summary>
@@ -23,17 +26,27 @@ public class HexBoard : MonoBehaviour
 
     void Start()
     {
-        GenerateHexBoard();
+        gameManager = GetComponent<GameManager>();
+        //GenerateHexBoard();
     }
 
-    void GenerateHexBoard()
+    public void GenerateHexBoard()
     {
+        if(gameManager == null)
+            gameManager = GetComponent<GameManager>();
+
         Material[] materials = Resources.LoadAll<Material>("HexMaterials");
         if (materials.Length == 0)
         {
             Debug.LogError("No materials found in the HexMaterials directory.");
             return;
         }
+
+        int middleRange = BoardRadius / 5;
+
+        int startingQ = Random.Range(-middleRange, middleRange);
+        int startingR = Random.Range(-middleRange, middleRange);
+        Hex startingTile = null;
 
         for (int q = -BoardRadius; q <= BoardRadius; q++)
         {
@@ -46,8 +59,15 @@ public class HexBoard : MonoBehaviour
                 Biome biome = Biome.BIOMES[Random.Range(0, Biome.BIOMES.Count)];
                 hex.Initialize(coordinates, biome, elevation: 0);
                 Hexes.Add(coordinates, hex);
+
+                if (q == startingQ && r == startingR)
+                {
+                    startingTile = hex;
+                }
             }
         }
+
+        //gameManager.PlaceSlime(startingTile);
     }
 
 }

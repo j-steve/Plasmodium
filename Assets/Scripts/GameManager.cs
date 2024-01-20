@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     HexBoard hexBoard;
     Slime slime;
 
+    public int CurrentDifficultyLevel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +17,7 @@ public class GameManager : MonoBehaviour
         slime = GetComponent<Slime>();
 
         hexBoard.GenerateHexBoard();
+        CurrentDifficultyLevel = 0;
     }
 
     public void PlaceSlime(Hex startingTile)
@@ -24,8 +27,8 @@ public class GameManager : MonoBehaviour
         int q = Random.Range(-middleRange, middleRange);
         int r = Random.Range(-middleRange, middleRange);
         Hex startingTile = HexBoard.Active.Hexes[new HexCoordinates(q, r)];*/
-
-        Instantiate(slime, startingTile.transform);
+        slime.OccupyHex(startingTile);
+        Instantiate(slime.SlimeModel, new Vector3(startingTile.transform.position.x, startingTile.transform.position.y + .5f, startingTile.transform.position.z), new Quaternion(45f,0f,0f,0f));
     }
 
     // Update is called once per frame

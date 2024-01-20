@@ -10,7 +10,7 @@ public class Slime : MonoBehaviour
 
     List<Hex> occupiedSpaces;
 
-    [SerializeField] GameObject SlimeModel;
+    public GameObject SlimeModel;
 
 
     // Start is called before the first frame update

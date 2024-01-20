@@ -32,9 +32,6 @@ public class HexBoard : MonoBehaviour
 
     public void GenerateHexBoard()
     {
-        if(gameManager == null)
-            gameManager = GetComponent<GameManager>();
-
         Material[] materials = Resources.LoadAll<Material>("HexMaterials");
         if (materials.Length == 0)
         {
@@ -66,8 +63,7 @@ public class HexBoard : MonoBehaviour
                 }
             }
         }
-
-        //gameManager.PlaceSlime(startingTile);
+        gameManager.PlaceSlime(startingTile);
     }
 
 }

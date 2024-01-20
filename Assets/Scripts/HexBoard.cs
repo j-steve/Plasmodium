@@ -41,13 +41,10 @@ public class HexBoard : MonoBehaviour
             int r2 = Mathf.Min(BoardRadius, -q + BoardRadius);
             for (int r = r1; r <= r2; r++)
             {
-                // Instantiate a Hex
                 Hex hex = Instantiate(HexPrefab);
                 HexCoordinates coordinates = new HexCoordinates(q, r);
-                int elevation = Random.Range(0, 3);
-                hex.Initialize(new HexCoordinates(q, r), elevation);
-                Material randomMaterial = materials[Random.Range(0, materials.Length)];
-                hex.GetComponent<Renderer>().material = randomMaterial;
+                Biome biome = Biome.BIOMES[Random.Range(0, Biome.BIOMES.Count)];
+                hex.Initialize(coordinates, biome, elevation: 0);
                 Hexes.Add(coordinates, hex);
             }
         }

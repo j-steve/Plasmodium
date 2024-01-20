@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1f11b208bbbca41b7ac41278bfc3a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HexPrefab: {fileID: 4673143332011578299, guid: 0420a7b8f38ce2e45a65ac6d1262fc87, type: 3}
+  HexPrefab: {fileID: 4666405485277338252, guid: 0420a7b8f38ce2e45a65ac6d1262fc87, type: 3}
   BoardRadius: 10
 --- !u!1 &705507993
 GameObject:

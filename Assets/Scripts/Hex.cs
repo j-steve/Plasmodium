@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
+
 public class Hex : MonoBehaviour
 {
+
+    public Biome Biome { get; private set; }
 
     public int StartingOxygen { get; set; }
     public int StartingNutrients { get; set; }
@@ -19,14 +23,21 @@ public class Hex : MonoBehaviour
     /// <summary>
     /// Constructs the hex on initial instantiation.
     /// </summary>
-    public void Initialize(HexCoordinates coordinates, int elevation)
+    public void Initialize(HexCoordinates coordinates, Biome biome, int elevation)
     {
         // Calculate the position for this Hex
         this.coordinates = coordinates;
         Vector3 position = coordinates.ToWorldPosition();
         position.y = elevation;
         transform.position = position;
-        name = "Hex " + coordinates.ToString();
+        // Set biome attributes
+        Biome = biome;
+        GetComponent<Renderer>().material = biome.Material;
+        StartingOxygen = biome.Oxygen;
+        StartingNutrients = biome.Nutrients;
+        StartingMoisture = biome.Moisture;
+
+        name = biome.Name + " " + coordinates.ToString();
     }
 
     // Start is called before the first frame update

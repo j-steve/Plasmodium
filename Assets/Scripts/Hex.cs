@@ -19,11 +19,13 @@ public class Hex : MonoBehaviour
     /// <summary>
     /// Constructs the hex on initial instantiation.
     /// </summary>
-    public void Initialize(HexCoordinates coordinates)
+    public void Initialize(HexCoordinates coordinates, int elevation)
     {
         // Calculate the position for this Hex
         this.coordinates = coordinates;
-        transform.position = coordinates.ToWorldPosition();
+        Vector3 position = coordinates.ToWorldPosition();
+        position.y = elevation;
+        transform.position = position;
         name = "Hex " + coordinates.ToString();
     }
 

@@ -5,10 +5,8 @@ using UnityEngine;
 public class HexCoordinates
 {
 
-    private const float hexRadius = 1f;
-
-    private static float hexWidth = 2 * hexRadius;
-    private static float hexHeight = Mathf.Sqrt(3) * hexRadius;
+    private static float hexWidth = 1.73f;
+    private static float hexHeight = 2;
 
     public int Q { get { return q; } }
     public int R { get { return r; } }

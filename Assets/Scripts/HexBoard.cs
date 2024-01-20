@@ -28,6 +28,12 @@ public class HexBoard : MonoBehaviour
 
     void GenerateHexBoard()
     {
+        Material[] materials = Resources.LoadAll<Material>("Materials");
+        if (materials.Length == 0)
+        {
+            Debug.LogError("No materials found in the Materials directory.");
+            return;
+        }
 
         for (int q = -BoardRadius; q <= BoardRadius; q++)
         {
@@ -39,6 +45,8 @@ public class HexBoard : MonoBehaviour
                 Hex hex = Instantiate(HexPrefab);
                 HexCoordinates coordinates = new HexCoordinates(q, r);
                 hex.Initialize(new HexCoordinates(q, r));
+                Material randomMaterial = materials[Random.Range(0, materials.Length)];
+                hex.GetComponent<Renderer>().material = randomMaterial;
                 Hexes.Add(coordinates, hex);
             }
         }

@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -302,13 +303,30 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fb0b48aab2d698419e29a3b38dae7cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  sensitivity: 0.1
+  zoomSpeed: 500
+  minY: 2
+  maxY: 9
 --- !u!1 &1247867537
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021d9d5b5c7db9147a9c8c22af84700a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlimeModel: {fileID: 1479999625309018717, guid: 3f915ac1568185146a152bee67261543, type: 3}
+  slimeModel: {fileID: 0}
 --- !u!114 &1247867539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 385a4f699dca7ea4b9973ddea68c3c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentDifficultyLevel: 0
 --- !u!4 &1247867541
 Transform:
   m_ObjectHideFlags: 0

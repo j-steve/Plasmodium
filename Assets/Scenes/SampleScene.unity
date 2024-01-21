@@ -358,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021d9d5b5c7db9147a9c8c22af84700a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slimeModel: {fileID: 0}
+  slimeModel: {fileID: 1479999625309018717, guid: 3f915ac1568185146a152bee67261543, type: 3}
 --- !u!114 &1247867539
 MonoBehaviour:
   m_ObjectHideFlags: 0

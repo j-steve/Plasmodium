@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
         int r = Random.Range(-middleRange, middleRange);
         Hex startingTile = HexBoard.Active.Hexes[new HexCoordinates(q, r)];*/
         slime.OccupyHex(startingTile);
-        Instantiate(slime.SlimeModel, new Vector3(startingTile.transform.position.x, startingTile.transform.position.y + .5f, startingTile.transform.position.z), new Quaternion(45f,0f,0f,0f));
+        
     }
 
     // Update is called once per frame

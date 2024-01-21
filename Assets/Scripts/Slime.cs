@@ -10,7 +10,7 @@ public class Slime : MonoBehaviour
 
     List<Hex> occupiedSpaces;
 
-    public GameObject SlimeModel;
+    [SerializeField] GameObject slimeModel;
 
 
     // Start is called before the first frame update
@@ -28,6 +28,7 @@ public class Slime : MonoBehaviour
     public void OccupyHex(Hex hex)
     {
         occupiedSpaces.Add(hex);
+        Instantiate(slimeModel, new Vector3(hex.transform.position.x, hex.transform.position.y + .5f, hex.transform.position.z), new Quaternion(0f, 0f, 0f, 0f));
     }
 
     public void OnTurnStart()

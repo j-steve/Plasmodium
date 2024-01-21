@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,4 +34,21 @@ public class HexCoordinates
         float y = hexHeight * r * 0.75f; // 0.75 accounts for the vertical stacking of hexes
         return new Vector3(x, 0, y);
     }
+    public override bool Equals(object obj)
+    {
+        // Check for null and compare run-time types.
+        if (obj == null || !GetType().Equals(obj.GetType()))
+        {
+            return false;
+        }
+
+        HexCoordinates other = (HexCoordinates)obj;
+        return (q == other.q) && (r == other.r);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(q, r);
+    }
+
 }

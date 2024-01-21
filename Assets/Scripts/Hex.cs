@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(Renderer))]
 
 public class Hex : MonoBehaviour
 {
+
+    [SerializeField] TextMeshProUGUI oxygenLabel;
+    [SerializeField] TextMeshProUGUI nutrientsLabel;
+    [SerializeField] TextMeshProUGUI moistureLabel;
 
     public Biome Biome { get; private set; }
 
@@ -36,6 +41,9 @@ public class Hex : MonoBehaviour
         StartingOxygen = biome.Oxygen;
         StartingNutrients = biome.Nutrients;
         StartingMoisture = biome.Moisture;
+        oxygenLabel.text = StartingOxygen.ToString();
+        nutrientsLabel.text = StartingNutrients.ToString();
+        moistureLabel.text = StartingMoisture.ToString();
 
         name = biome.Name + " " + coordinates.ToString();
     }

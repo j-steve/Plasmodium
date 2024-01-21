@@ -58,37 +58,52 @@ public class Hex : MonoBehaviour
         CurrentOxygen = StartingOxygen;
     }
 
-    public bool AbsorbOxygen()
+    public int AbsorbOxygen(bool hasDrainUpgrade)
     {
-        if (CurrentOxygen > 0)
+        if(hasDrainUpgrade && CurrentOxygen > 1)
+        {
+            CurrentOxygen -= 2;
+            return 2;
+        }
+        else if (CurrentOxygen > 0)
         {
             CurrentOxygen--;
-            return true;
+            return 1;
         }
 
-        return false;
+        return 0;
     }
 
-    public bool AbsorbNutrients()
+    public int AbsorbNutrients(bool hasDrainUpgrade)
     {
-        if (CurrentNutrients > 0)
+        if (hasDrainUpgrade && CurrentNutrients > 1)
+        {
+            CurrentNutrients -= 2;
+            return 2;
+        }
+        else if (CurrentNutrients > 0)
         {
             CurrentNutrients--;
-            return true;
+            return 1;
         }
 
-        return false;
+        return 0;
     }
 
-    public bool AbsorbMoisture()
+    public int AbsorbMoisture(bool hasDrainUpgrade)
     {
-        if (CurrentMoisture > 0)
+        if (hasDrainUpgrade && CurrentMoisture > 1)
+        {
+            CurrentMoisture -= 2;
+            return 2;
+        }
+        else if (CurrentMoisture > 0)
         {
             CurrentMoisture--;
-            return true;
+            return 1;
         }
 
-        return false;
+        return 0;
     }
 
 }

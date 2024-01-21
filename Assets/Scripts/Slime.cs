@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class Slime : MonoBehaviour
     public int NutrientCount { get; set; }
     public int MoistureCount { get; set; }
 
+    public Dictionary<Upgrades, bool> UpgradeStatus;
+
     List<Hex> occupiedSpaces;
 
     [SerializeField] GameObject slimeModel;
@@ -17,6 +20,12 @@ public class Slime : MonoBehaviour
     void Start()
     {
         occupiedSpaces = new List<Hex>();
+        UpgradeStatus = new Dictionary<Upgrades, bool>();
+
+        foreach(Upgrades upgrade in Enum.GetValues(typeof(Upgrades)))
+        {
+            UpgradeStatus.Add(upgrade, false);
+        }
     }
 
     // Update is called once per frame
@@ -29,27 +38,55 @@ public class Slime : MonoBehaviour
     {
         occupiedSpaces.Add(hex);
         Instantiate(slimeModel, new Vector3(hex.transform.position.x, hex.transform.position.y + .5f, hex.transform.position.z), new Quaternion(0f, 0f, 0f, 0f));
+        
+        if (UpgradeStatus[Upgrades.ExtraHexSpore])
+        {
+            //spawn additional slime
+        }
+
     }
 
     public void OnTurnStart()
     {
         if(MoistureCount < occupiedSpaces.Count)
         {
+            if(UpgradeStatus[Upgrades.HiddenReserves])
+            {
+                //Don't die, get 1 more turn
+            }
             //Slime dies
         }
         else
         {
-            MoistureCount -= occupiedSpaces.Count;
+            if (UpgradeStatus[Upgrades.MoistureConserver])
+            {
+                MoistureCount -= occupiedSpaces.Count / 2;
+            }
+            else
+            {
+                MoistureCount -= occupiedSpaces.Count;
+            }
         }
     }
 
     public void OnTurnEnd()
     {
+        bool hasDrainUpgrade = UpgradeStatus[Upgrades.ResourceDrainer];
         foreach(Hex hex in occupiedSpaces)
         {
-            OxygenCount += hex.AbsorbOxygen() ? 1 : 0;
-            NutrientCount += hex.AbsorbNutrients() ? 1 : 0;
-            MoistureCount += hex.AbsorbMoisture() ? 1 : 0;
+            OxygenCount += hex.AbsorbOxygen(hasDrainUpgrade);
+            NutrientCount += hex.AbsorbNutrients(hasDrainUpgrade);
+            MoistureCount += hex.AbsorbMoisture(hasDrainUpgrade);
         }
+    }
+
+    public enum Upgrades
+    {
+        SendSpores = 0, //Allows the slime to be able to spread further than just adjacent hexes
+        ExtraHexSpore = 1, //When the slime spreads to a new hex, a random adjacent hex also gets a slime on it
+        HiddenReserves = 2, //When the slime would die from now moisture, it gets 1 more turn
+        GoalFinder = 3, //Reveals the goal hexes
+        ResourceDrainer = 4, //Drains 2 of each resource on each hex
+        MoistureConserver = 5 //The slime needs half the amount of moisture at the start of each turn
     }
 }

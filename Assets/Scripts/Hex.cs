@@ -66,10 +66,13 @@ public class Hex : MonoBehaviour
     public void Highlight()
     {
         hexOutlineSprite.color = hexOutlineColorHighlighted;
+        hexOutlineSprite.sortingOrder = 5;
+
     }
     public void UnHighlight()
     {
         hexOutlineSprite.color = hexOutlineColorDefault;
+        hexOutlineSprite.sortingOrder = 2;
     }
 
     public int AbsorbOxygen(bool hasDrainUpgrade)

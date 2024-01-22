@@ -36,8 +36,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< Updated upstream
-=======
         if(Input.GetMouseButtonDown(0))
         {
             //slime.OccupyHex(hexBoard.ActiveHex);
@@ -46,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     public void SpreadButtonClick()
     {
->>>>>>> Stashed changes
+
 
     }
 }

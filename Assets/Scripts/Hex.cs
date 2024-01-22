@@ -35,6 +35,8 @@ public class Hex : MonoBehaviour
     public bool IsGoal { get; private set; }
     public bool IsOccupied { get; private set; }
 
+    public string UniqueID { get; set; }
+
 
     private HexCoordinates coordinates;
 
@@ -62,6 +64,7 @@ public class Hex : MonoBehaviour
         IsOccupied = false;
 
         name = biome.Name + " " + coordinates.ToString();
+        UniqueID = name;
         UnHighlight();
     }
 
@@ -75,6 +78,12 @@ public class Hex : MonoBehaviour
         CurrentOxygen = StartingOxygen;
     }
 
+    public void HighlightSpreadable()
+    {
+        hexOutline.color = hexOutlineColorSpreadOption;
+        hexOutline.sortingOrder = 3; // Prioritize this cell border so it's shown on top.
+    }
+
     public void Highlight()
     {
         hexOutline.color = hexOutlineColorHighlighted;
@@ -83,16 +92,21 @@ public class Hex : MonoBehaviour
     }
     public void UnHighlight()
     {
+        if (IsOccupied)
+        {
+            hexOutline.color = hexOutlineColorOccupied;
+            hexOutline.sortingOrder = 4;
 
-        if (!IsOccupied)
+        }
+        else if (!(GameManager.Active.CurrentState == GameManager.TurnState.SpreadingToHex))
         {
             hexOutline.color = hexOutlineColorDefault;
             hexOutline.sortingOrder = 2; // Revert to normal cell border priority.
         }
         else
         {
-            hexOutline.color = hexOutlineColorOccupied;
-            hexOutline.sortingOrder = 2; // Revert to normal cell border priority.
+            hexOutline.color = hexOutlineColorSpreadOption;
+            hexOutline.sortingOrder = 3; // Prioritize this cell border so it's shown on top.
         }
     }
 
@@ -113,7 +127,7 @@ public class Hex : MonoBehaviour
     {
         IsOccupied = true;
         hexOutline.color = hexOutlineColorOccupied;
-
+        hexOutline.sortingOrder = 4;
     }
 
     public int AbsorbOxygen(bool hasDrainUpgrade)

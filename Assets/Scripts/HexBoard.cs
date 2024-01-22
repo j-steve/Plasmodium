@@ -21,6 +21,8 @@ public class HexBoard : MonoBehaviour
     [SerializeField] Hex HexPrefab;
     [SerializeField] int numberOfGoals;
 
+    public List<Hex> SpreadableHexes { get; set; }
+
 
     /// <summary>
     /// Sets active board, on initialization or after script recompilation. 
@@ -93,7 +95,10 @@ public class HexBoard : MonoBehaviour
             {
                 GameObject hitObject = hit.transform.gameObject;
                 // Check if hitObject is a hex tile, and if so, highlight it
-                SelectHex(hitObject);
+                if (gameManager.CurrentState == GameManager.TurnState.SpreadingToHex)
+                {
+                    SelectHex(hitObject);
+                }
             }
             else
             {
@@ -103,15 +108,16 @@ public class HexBoard : MonoBehaviour
     }
     void SelectHex(GameObject gameObject)
     {
-        if (ActiveHex != null)
-        {
-            ActiveHex.UnHighlight();
-        }
         if (gameObject != null)
         {
             Hex clickedHex = gameObject.GetComponent<Hex>();
-            if (clickedHex != null)
+
+            if (clickedHex != null && SpreadableHexes.Contains(clickedHex))
             {
+                if (ActiveHex != null)
+                {
+                    ActiveHex.UnHighlight();
+                }
                 clickedHex.Highlight();
                 ActiveHex = clickedHex;
             }

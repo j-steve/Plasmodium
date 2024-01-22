@@ -1,17 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Active;
+
     HexBoard hexBoard;
     Slime slime;
 
     public int CurrentDifficultyLevel;
     public int TurnNumber;
 
+    public TurnState CurrentState;
 
-    // Start is called before the first frame update
+    void OnEnable()
+    {
+        Active = this;
+    }
+
+        // Start is called before the first frame update
     void Start()
     {
         hexBoard = GetComponent<HexBoard>();
@@ -20,6 +29,7 @@ public class GameManager : MonoBehaviour
         hexBoard.GenerateHexBoard();
         CurrentDifficultyLevel = 0;
         TurnNumber = 0;
+        CurrentState = TurnState.Idle;
     }
 
     public void PlaceSlime(Hex startingTile)
@@ -42,9 +52,81 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UpgradeButtonClick()
+    {
+        CurrentState = TurnState.ChoosingUpgrade;
+    }
+
     public void SpreadButtonClick()
     {
+        CurrentState = TurnState.SpreadingToHex;
 
+        List<Hex> spreadableHexes = new List<Hex>();
 
+        foreach(Hex hex in slime.occupiedSpaces)
+        {
+            spreadableHexes.AddRange(hex.FindNeighbors().Where(h => !h.IsOccupied).Except(spreadableHexes));
+        }
+
+        if(slime.UpgradeStatus[Slime.Upgrades.SendSpores])
+        {
+            List<Hex> tempList = new List<Hex>();
+            foreach (Hex hex in spreadableHexes)
+            {
+                tempList.AddRange(hex.FindNeighbors().Where(h => !h.IsOccupied).Except(spreadableHexes).Except(tempList));
+            }
+            spreadableHexes.AddRange(tempList);
+        }
+
+        hexBoard.SpreadableHexes = spreadableHexes;
+
+        foreach(Hex hex in spreadableHexes)
+        {
+            hex.HighlightSpreadable();
+        }
+    }
+
+    public void ConfirmSpreadClick()
+    {
+        if (hexBoard.ActiveHex != null)
+        {
+            slime.OccupyHex(hexBoard.ActiveHex);
+            GoBackToIdleState();
+            ClearSpreadableDisplay();
+        }
+    }
+
+    public void ClearSpreadableDisplay()
+    {
+        foreach (Hex hex in hexBoard.SpreadableHexes)
+        {
+            hex.UnHighlight();
+        }
+        hexBoard.SpreadableHexes.Clear();
+    }
+
+    public void GoBackToIdleState()
+    {
+        CurrentState = TurnState.Idle;
+    }
+
+    public void EndTurnButtonClick()
+    {
+        CurrentState = TurnState.EndOfTurn;
+        slime.OnTurnEnd();
+
+        CurrentState = TurnState.StartOfTurn;
+        slime.OnTurnStart();
+
+        CurrentState = TurnState.Idle;
+    }
+
+    public enum TurnState
+    {
+        Idle = 0,
+        ChoosingUpgrade = 1,
+        SpreadingToHex = 2,
+        StartOfTurn = 3,
+        EndOfTurn = 4
     }
 }

@@ -11,7 +11,7 @@ public class Slime : MonoBehaviour
 
     public Dictionary<Upgrades, bool> UpgradeStatus;
 
-    List<Hex> occupiedSpaces;
+    public List<Hex> occupiedSpaces { get; private set; }
 
     [SerializeField] GameObject slimeModel;
 

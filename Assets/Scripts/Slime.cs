@@ -75,9 +75,9 @@ public class Slime : MonoBehaviour
         bool hasDrainUpgrade = UpgradeStatus[Upgrades.ResourceDrainer];
         foreach(Hex hex in occupiedSpaces)
         {
-            OxygenCount += hex.AbsorbOxygen(hasDrainUpgrade);
-            NutrientCount += hex.AbsorbNutrients(hasDrainUpgrade);
-            MoistureCount += hex.AbsorbMoisture(hasDrainUpgrade);
+            OxygenCount += hex.AbsorbOxygen(hasDrainUpgrade, false);
+            NutrientCount += hex.AbsorbNutrients(hasDrainUpgrade, false);
+            MoistureCount += hex.AbsorbMoisture(hasDrainUpgrade, false);
         }
     }
 

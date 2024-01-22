@@ -53,12 +53,17 @@ public class Hex : MonoBehaviour
         // Set biome attributes
         Biome = biome;
         GetComponent<Renderer>().material = biome.Material;
-        StartingOxygen = biome.Oxygen;
-        StartingNutrients = biome.Nutrients;
-        StartingMoisture = biome.Moisture;
+        StartingOxygen = UnityEngine.Random.Range(biome.Oxygen-1, biome.Oxygen+1);
+        StartingNutrients = UnityEngine.Random.Range(biome.Nutrients - 1, biome.Nutrients + 1);
+        StartingMoisture = UnityEngine.Random.Range(biome.Moisture - 1, biome.Moisture + 1);
         oxygenLabel.text = StartingOxygen.ToString();
         nutrientsLabel.text = StartingNutrients.ToString();
         moistureLabel.text = StartingMoisture.ToString();
+
+        CurrentMoisture = StartingMoisture;
+        CurrentNutrients = StartingNutrients;
+        CurrentOxygen = StartingOxygen;
+
         goalOutline.enabled = false;
 
         IsOccupied = false;
@@ -71,11 +76,7 @@ public class Hex : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Randomly generate resources based on the tile type. eg log has 3-5 nutrients, 2-4 moisture, 1-3 oxygen
-
-        CurrentMoisture = StartingMoisture;
-        CurrentNutrients = StartingNutrients;
-        CurrentOxygen = StartingOxygen;
+        
     }
 
     public void HighlightSpreadable()
@@ -130,48 +131,54 @@ public class Hex : MonoBehaviour
         hexOutline.sortingOrder = 4;
     }
 
-    public int AbsorbOxygen(bool hasDrainUpgrade)
+    public int AbsorbOxygen(bool hasDrainUpgrade, bool predictionMode)
     {
         if (hasDrainUpgrade && CurrentOxygen > 1)
         {
-            CurrentOxygen -= 2;
+            if(!predictionMode)
+                CurrentOxygen -= 2;
             return 2;
         }
         else if (CurrentOxygen > 0)
         {
-            CurrentOxygen--;
+            if (!predictionMode)
+                CurrentOxygen--;
             return 1;
         }
 
         return 0;
     }
 
-    public int AbsorbNutrients(bool hasDrainUpgrade)
+    public int AbsorbNutrients(bool hasDrainUpgrade, bool predictionMode)
     {
         if (hasDrainUpgrade && CurrentNutrients > 1)
         {
-            CurrentNutrients -= 2;
+            if (!predictionMode)
+                CurrentNutrients -= 2;
             return 2;
         }
         else if (CurrentNutrients > 0)
         {
-            CurrentNutrients--;
+            if (!predictionMode)
+                CurrentNutrients--;
             return 1;
         }
 
         return 0;
     }
 
-    public int AbsorbMoisture(bool hasDrainUpgrade)
+    public int AbsorbMoisture(bool hasDrainUpgrade, bool predictionMode)
     {
         if (hasDrainUpgrade && CurrentMoisture > 1)
         {
-            CurrentMoisture -= 2;
+            if (!predictionMode)
+                CurrentMoisture -= 2;
             return 2;
         }
         else if (CurrentMoisture > 0)
         {
-            CurrentMoisture--;
+            if (!predictionMode)
+                CurrentMoisture--;
             return 1;
         }
 

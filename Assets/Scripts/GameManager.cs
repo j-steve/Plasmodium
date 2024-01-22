@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -12,8 +13,13 @@ public class GameManager : MonoBehaviour
 
     public int CurrentDifficultyLevel;
     public int TurnNumber;
+    public int StartingResources = 5;
 
     public TurnState CurrentState;
+
+    [SerializeField] TextMeshProUGUI txtMoisture;
+    [SerializeField] TextMeshProUGUI txtNutrients;
+    [SerializeField] TextMeshProUGUI txtOxygen;
 
     void OnEnable()
     {
@@ -30,6 +36,11 @@ public class GameManager : MonoBehaviour
         CurrentDifficultyLevel = 0;
         TurnNumber = 0;
         CurrentState = TurnState.Idle;
+
+        slime.MoistureCount = StartingResources;
+        slime.NutrientCount = StartingResources;
+        slime.OxygenCount = StartingResources;
+        UpdateResourceUI();
     }
 
     public void PlaceSlime(Hex startingTile)
@@ -40,7 +51,7 @@ public class GameManager : MonoBehaviour
         int r = Random.Range(-middleRange, middleRange);
         Hex startingTile = HexBoard.Active.Hexes[new HexCoordinates(q, r)];*/
         slime.OccupyHex(startingTile);
-
+        UpdateResourceUI();
     }
 
     // Update is called once per frame
@@ -93,6 +104,7 @@ public class GameManager : MonoBehaviour
             slime.OccupyHex(hexBoard.ActiveHex);
             GoBackToIdleState();
             ClearSpreadableDisplay();
+            UpdateResourceUI();
         }
     }
 
@@ -119,6 +131,35 @@ public class GameManager : MonoBehaviour
         slime.OnTurnStart();
 
         CurrentState = TurnState.Idle;
+    }
+
+    public void UpdateResourceUI()
+    {
+        int moisture = 0;
+        int nutrients = 0;
+        int oxygen = 0;
+
+        bool hasDrainUpgrade = slime.UpgradeStatus[Slime.Upgrades.ResourceDrainer];
+
+        foreach (Hex hex in slime.occupiedSpaces)
+        {
+            moisture += hex.AbsorbMoisture(hasDrainUpgrade, true);
+            nutrients += hex.AbsorbNutrients(hasDrainUpgrade, true);
+            oxygen += hex.AbsorbOxygen(hasDrainUpgrade, true);
+        }
+
+        if (slime.UpgradeStatus[Slime.Upgrades.MoistureConserver])
+        {
+            moisture -= slime.occupiedSpaces.Count / 2;
+        }
+        else
+        {
+            moisture -= slime.occupiedSpaces.Count;
+        }
+
+        txtMoisture.text = slime.MoistureCount + "(" + (moisture >= 0 ? "+" : "-") + moisture + ")";
+        txtNutrients.text = slime.NutrientCount + "(" + (nutrients >= 0 ? "+" : "-") + nutrients + ")";
+        txtOxygen.text = slime.OxygenCount + "(" + (oxygen >= 0 ? "+" : "-") + oxygen + ")";
     }
 
     public enum TurnState

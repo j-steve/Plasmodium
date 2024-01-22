@@ -68,6 +68,7 @@ public class HexBoard : MonoBehaviour
         }
         SetGoalHexes();
         gameManager.PlaceSlime(startingTile);
+        CenterCamera(startingTile);
 
     }
 
@@ -82,6 +83,15 @@ public class HexBoard : MonoBehaviour
         {
             Hexes[goalCoord].SetAsGoal();
         }
+    }
+
+    void CenterCamera(Hex hex)
+    {
+        Transform cameraTransform = Camera.main.transform;
+        Vector3 newPosition = hex.transform.position;
+        newPosition.y = cameraTransform.position.y;
+        newPosition.z -= 5; // Move camera back so starting hex is centered.
+        cameraTransform.position = newPosition;
     }
 
     void Update()

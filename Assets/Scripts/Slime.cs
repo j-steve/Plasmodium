@@ -11,7 +11,7 @@ public class Slime : MonoBehaviour
 
     public Dictionary<Upgrades, bool> UpgradeStatus;
 
-    List<Hex> occupiedSpaces;
+    public List<Hex> occupiedSpaces { get; private set; }
 
     [SerializeField] GameObject slimeModel;
 
@@ -38,7 +38,8 @@ public class Slime : MonoBehaviour
     {
         occupiedSpaces.Add(hex);
         Instantiate(slimeModel, new Vector3(hex.transform.position.x, hex.transform.position.y + .5f, hex.transform.position.z), new Quaternion(0f, 0f, 0f, 0f));
-        
+        hex.Occupy();
+
         if (UpgradeStatus[Upgrades.ExtraHexSpore])
         {
             //spawn additional slime
@@ -74,9 +75,9 @@ public class Slime : MonoBehaviour
         bool hasDrainUpgrade = UpgradeStatus[Upgrades.ResourceDrainer];
         foreach(Hex hex in occupiedSpaces)
         {
-            OxygenCount += hex.AbsorbOxygen(hasDrainUpgrade);
-            NutrientCount += hex.AbsorbNutrients(hasDrainUpgrade);
-            MoistureCount += hex.AbsorbMoisture(hasDrainUpgrade);
+            OxygenCount += hex.AbsorbOxygen(hasDrainUpgrade, false);
+            NutrientCount += hex.AbsorbNutrients(hasDrainUpgrade, false);
+            MoistureCount += hex.AbsorbMoisture(hasDrainUpgrade, false);
         }
     }
 
@@ -87,6 +88,7 @@ public class Slime : MonoBehaviour
         HiddenReserves = 2, //When the slime would die from now moisture, it gets 1 more turn
         GoalFinder = 3, //Reveals the goal hexes
         ResourceDrainer = 4, //Drains 2 of each resource on each hex
-        MoistureConserver = 5 //The slime needs half the amount of moisture at the start of each turn
+        MoistureConserver = 5, //The slime needs half the amount of moisture at the start of each turn
+        DiscountSpreading = 6 //The cost to spread is halved
     }
 }

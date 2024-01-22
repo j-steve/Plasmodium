@@ -1405,8 +1405,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb0b48aab2d698419e29a3b38dae7cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  sensitivity: 0.1
+  keyboardPanSpeed: 0
+  mousePanSpeed: 0
   zoomSpeed: 500
   minY: 2
   maxY: 9
@@ -1532,9 +1532,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1f11b208bbbca41b7ac41278bfc3a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HexPrefab: {fileID: 4666405485277338252, guid: 0420a7b8f38ce2e45a65ac6d1262fc87, type: 3}
   BoardRadius: 15
   gameManager: {fileID: 1102463956}
+  HexPrefab: {fileID: 4666405485277338252, guid: 0420a7b8f38ce2e45a65ac6d1262fc87, type: 3}
 --- !u!114 &1102463956
 MonoBehaviour:
   m_ObjectHideFlags: 0

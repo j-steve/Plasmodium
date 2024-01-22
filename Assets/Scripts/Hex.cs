@@ -32,11 +32,8 @@ public class Hex : MonoBehaviour
     public int CurrentNutrients { get; set; }
     public int CurrentMoisture { get; set; }
 
-<<<<<<< Updated upstream
     public bool IsGoal { get; private set; }
-=======
     public bool IsOccupied { get; private set; }
->>>>>>> Stashed changes
 
 
     private HexCoordinates coordinates;
@@ -86,9 +83,17 @@ public class Hex : MonoBehaviour
     }
     public void UnHighlight()
     {
-<<<<<<< Updated upstream
-        hexOutline.color = hexOutlineColorDefault;
-        hexOutline.sortingOrder = 2; // Revert to normal cell border priority.
+
+        if (!IsOccupied)
+        {
+            hexOutline.color = hexOutlineColorDefault;
+            hexOutline.sortingOrder = 2; // Revert to normal cell border priority.
+        }
+        else
+        {
+            hexOutline.color = hexOutlineColorOccupied;
+            hexOutline.sortingOrder = 2; // Revert to normal cell border priority.
+        }
     }
 
     public void SetAsGoal()
@@ -102,24 +107,13 @@ public class Hex : MonoBehaviour
         return Utils.GetEnumValues<HexDirection>().Select(
             dir => HexBoard.Active.Hexes.GetValueOrDefault(
                 coordinates.GetAdjacent(dir))).ToList();
-=======
-        if (!IsOccupied)
-        {
-            hexOutlineSprite.color = hexOutlineColorDefault;
-            hexOutlineSprite.sortingOrder = 2; // Revert to normal cell border priority.
-        }
-        else
-        {
-            hexOutlineSprite.color = hexOutlineColorOccupied;
-            hexOutlineSprite.sortingOrder = 2; // Revert to normal cell border priority.
-        }
     }
 
     public void Occupy()
     {
         IsOccupied = true;
-        hexOutlineSprite.color = hexOutlineColorOccupied;
->>>>>>> Stashed changes
+        hexOutline.color = hexOutlineColorOccupied;
+
     }
 
     public int AbsorbOxygen(bool hasDrainUpgrade)

@@ -549,7 +549,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 347276051}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1102463956}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: SpreadButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &347276051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1386,13 +1398,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 971646268}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!114 &971646272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1405,8 +1417,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb0b48aab2d698419e29a3b38dae7cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  sensitivity: 0.1
+  keyboardPanSpeed: 10
+  mousePanSpeed: 5
   zoomSpeed: 500
   minY: 2
   maxY: 9
@@ -1519,7 +1531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021d9d5b5c7db9147a9c8c22af84700a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slimeModel: {fileID: 1479999625309018717, guid: 3f915ac1568185146a152bee67261543, type: 3}
+  slimeModel: {fileID: 3886978053888574330, guid: b5003f4aa7f5fec4683483fd990eccb1, type: 3}
 --- !u!114 &1102463955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1532,9 +1544,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1f11b208bbbca41b7ac41278bfc3a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HexPrefab: {fileID: 4666405485277338252, guid: 0420a7b8f38ce2e45a65ac6d1262fc87, type: 3}
   BoardRadius: 15
   gameManager: {fileID: 1102463956}
+  HexPrefab: {fileID: 4666405485277338252, guid: 0420a7b8f38ce2e45a65ac6d1262fc87, type: 3}
 --- !u!114 &1102463956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1548,6 +1560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentDifficultyLevel: 0
+  TurnNumber: 0
 --- !u!4 &1102463957
 Transform:
   m_ObjectHideFlags: 0

@@ -374,6 +374,7 @@ MonoBehaviour:
   BoardRadius: 15
   gameManager: {fileID: 1247867540}
   HexPrefab: {fileID: 4666405485277338252, guid: 0420a7b8f38ce2e45a65ac6d1262fc87, type: 3}
+  numberOfGoals: 4
 --- !u!114 &1247867540
 MonoBehaviour:
   m_ObjectHideFlags: 0

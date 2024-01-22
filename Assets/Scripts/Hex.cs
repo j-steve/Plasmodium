@@ -14,7 +14,8 @@ public class Hex : MonoBehaviour
     [SerializeField] TextMeshProUGUI oxygenLabel;
     [SerializeField] TextMeshProUGUI nutrientsLabel;
     [SerializeField] TextMeshProUGUI moistureLabel;
-    [SerializeField] SpriteRenderer hexOutlineSprite;
+    [SerializeField] SpriteRenderer hexOutline;
+    [SerializeField] SpriteRenderer goalOutline;
 
     [SerializeField] Color hexOutlineColorDefault;
     [SerializeField] Color hexOutlineColorHighlighted;
@@ -28,6 +29,8 @@ public class Hex : MonoBehaviour
     public int CurrentOxygen { get; set; }
     public int CurrentNutrients { get; set; }
     public int CurrentMoisture { get; set; }
+
+    public bool IsGoal { get; private set; }
 
 
     private HexCoordinates coordinates;
@@ -51,6 +54,7 @@ public class Hex : MonoBehaviour
         oxygenLabel.text = StartingOxygen.ToString();
         nutrientsLabel.text = StartingNutrients.ToString();
         moistureLabel.text = StartingMoisture.ToString();
+        goalOutline.enabled = false;
 
         name = biome.Name + " " + coordinates.ToString();
         UnHighlight();
@@ -68,14 +72,20 @@ public class Hex : MonoBehaviour
 
     public void Highlight()
     {
-        hexOutlineSprite.color = hexOutlineColorHighlighted;
-        hexOutlineSprite.sortingOrder = 5; // Prioritize this cell border so it's shown on top.
+        hexOutline.color = hexOutlineColorHighlighted;
+        hexOutline.sortingOrder = 5; // Prioritize this cell border so it's shown on top.
 
     }
     public void UnHighlight()
     {
-        hexOutlineSprite.color = hexOutlineColorDefault;
-        hexOutlineSprite.sortingOrder = 2; // Revert to normal cell border priority.
+        hexOutline.color = hexOutlineColorDefault;
+        hexOutline.sortingOrder = 2; // Revert to normal cell border priority.
+    }
+
+    public void SetAsGoal()
+    {
+        IsGoal = true;
+        goalOutline.enabled = true;
     }
 
     public List<Hex> FindNeighbors()

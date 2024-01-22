@@ -28,12 +28,12 @@ public class GameManager : MonoBehaviour
         int r = Random.Range(-middleRange, middleRange);
         Hex startingTile = HexBoard.Active.Hexes[new HexCoordinates(q, r)];*/
         slime.OccupyHex(startingTile);
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

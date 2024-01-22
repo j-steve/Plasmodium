@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static System.Math;
 
 [RequireComponent(typeof(GameManager))]
 public class HexBoard : MonoBehaviour
@@ -18,6 +19,7 @@ public class HexBoard : MonoBehaviour
     [SerializeField] GameManager gameManager;
 
     [SerializeField] Hex HexPrefab;
+    [SerializeField] int numberOfGoals;
 
 
     /// <summary>
@@ -26,12 +28,7 @@ public class HexBoard : MonoBehaviour
     void OnEnable()
     {
         Active = this;
-    }
-
-    void Start()
-    {
         gameManager = GetComponent<GameManager>();
-        //GenerateHexBoard();
     }
 
     public void GenerateHexBoard()
@@ -57,7 +54,7 @@ public class HexBoard : MonoBehaviour
             {
                 Hex hex = Instantiate(HexPrefab);
                 HexCoordinates coordinates = new HexCoordinates(q, r);
-                Biome biome = Biome.BIOMES[Random.Range(0, Biome.BIOMES.Count)];
+                Biome biome = Biome.BIOMES.GetRandom();
                 hex.Initialize(coordinates, biome, elevation: 0);
                 Hexes.Add(coordinates, hex);
 
@@ -67,12 +64,22 @@ public class HexBoard : MonoBehaviour
                 }
             }
         }
-
-        IEnumerable<Hex> boundaryHexes = Hexes.Values.Where(
-            hex => hex.FindNeighbors().Any(x => x == null));
-        Debug.LogFormat("Boundary hexes has {0}", boundaryHexes.ToList().Count());
+        SetGoalHexes();
         gameManager.PlaceSlime(startingTile);
 
+    }
+
+    void SetGoalHexes()
+    {
+        IEnumerable<HexCoordinates> boundaryCoords = Hexes.Keys.Where(key =>
+        {
+            int distance = (Abs(key.Q) + Abs(key.R) + Abs(key.Q + key.R)) / 2;
+            return distance == BoardRadius;
+        });
+        foreach (HexCoordinates goalCoord in boundaryCoords.OrderBy(x => Random.value).Take(numberOfGoals))
+        {
+            Hexes[goalCoord].SetAsGoal();
+        }
     }
 
     void Update()

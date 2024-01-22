@@ -11,6 +11,10 @@ public class Hex : MonoBehaviour
     [SerializeField] TextMeshProUGUI oxygenLabel;
     [SerializeField] TextMeshProUGUI nutrientsLabel;
     [SerializeField] TextMeshProUGUI moistureLabel;
+    [SerializeField] SpriteRenderer hexOutlineSprite;
+
+    [SerializeField] Color hexOutlineColorDefault;
+    [SerializeField] Color hexOutlineColorHighlighted;
 
     public Biome Biome { get; private set; }
 
@@ -46,6 +50,7 @@ public class Hex : MonoBehaviour
         moistureLabel.text = StartingMoisture.ToString();
 
         name = biome.Name + " " + coordinates.ToString();
+        UnHighlight();
     }
 
     // Start is called before the first frame update
@@ -58,9 +63,18 @@ public class Hex : MonoBehaviour
         CurrentOxygen = StartingOxygen;
     }
 
+    public void Highlight()
+    {
+        hexOutlineSprite.color = hexOutlineColorHighlighted;
+    }
+    public void UnHighlight()
+    {
+        hexOutlineSprite.color = hexOutlineColorDefault;
+    }
+
     public int AbsorbOxygen(bool hasDrainUpgrade)
     {
-        if(hasDrainUpgrade && CurrentOxygen > 1)
+        if (hasDrainUpgrade && CurrentOxygen > 1)
         {
             CurrentOxygen -= 2;
             return 2;

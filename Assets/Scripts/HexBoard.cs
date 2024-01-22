@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(GameManager))]
@@ -7,13 +8,15 @@ public class HexBoard : MonoBehaviour
 {
     public static HexBoard Active;
 
-    public Hex HexPrefab;
+    public Hex ActiveHex { get; private set; }
 
     public Dictionary<HexCoordinates, Hex> Hexes = new Dictionary<HexCoordinates, Hex>();
 
     public int BoardRadius; // The radius of the board (in hexes)
 
     [SerializeField] GameManager gameManager;
+
+    [SerializeField] Hex HexPrefab;
 
 
     /// <summary>
@@ -66,4 +69,39 @@ public class HexBoard : MonoBehaviour
         gameManager.PlaceSlime(startingTile);
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        { // Left Mouse Button
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit))
+            {
+                GameObject hitObject = hit.transform.gameObject;
+                // Check if hitObject is a hex tile, and if so, highlight it
+                SelectHex(hitObject);
+            }
+            else
+            {
+                Debug.LogFormat("Hit nothin!");
+            }
+        }
+    }
+    void SelectHex(GameObject gameObject)
+    {
+        if (ActiveHex != null)
+        {
+            ActiveHex.UnHighlight();
+        }
+        if (gameObject != null)
+        {
+            Hex clickedHex = gameObject.GetComponent<Hex>();
+            if (clickedHex != null)
+            {
+                clickedHex.Highlight();
+                ActiveHex = clickedHex;
+            }
+        }
+    }
 }

@@ -66,13 +66,13 @@ public class Hex : MonoBehaviour
     public void Highlight()
     {
         hexOutlineSprite.color = hexOutlineColorHighlighted;
-        hexOutlineSprite.sortingOrder = 5;
+        hexOutlineSprite.sortingOrder = 5; // Prioritize this cell border so it's shown on top.
 
     }
     public void UnHighlight()
     {
         hexOutlineSprite.color = hexOutlineColorDefault;
-        hexOutlineSprite.sortingOrder = 2;
+        hexOutlineSprite.sortingOrder = 2; // Revert to normal cell border priority.
     }
 
     public int AbsorbOxygen(bool hasDrainUpgrade)

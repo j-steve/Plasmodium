@@ -88,6 +88,7 @@ public class Slime : MonoBehaviour
         HiddenReserves = 2, //When the slime would die from now moisture, it gets 1 more turn
         GoalFinder = 3, //Reveals the goal hexes
         ResourceDrainer = 4, //Drains 2 of each resource on each hex
-        MoistureConserver = 5 //The slime needs half the amount of moisture at the start of each turn
+        MoistureConserver = 5, //The slime needs half the amount of moisture at the start of each turn
+        DiscountSpreading = 6 //The cost to spread is halved
     }
 }

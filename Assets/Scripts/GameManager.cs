@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +21,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI txtMoisture;
     [SerializeField] TextMeshProUGUI txtNutrients;
     [SerializeField] TextMeshProUGUI txtOxygen;
+
+    [SerializeField] TextMeshProUGUI txtSpreadMoistureCost;
+    [SerializeField] TextMeshProUGUI txtSpreadNutrientsCost;
+    [SerializeField] TextMeshProUGUI txtSpreadOxygenCost;
+
+    [SerializeField] Button btnConfirmSpread;
+
+    public int SpreadMoistureCost;
+    public int SpreadNutrientsCost;
+    public int SpreadOxygenCost;
 
     void OnEnable()
     {
@@ -40,6 +51,7 @@ public class GameManager : MonoBehaviour
         slime.MoistureCount = StartingResources;
         slime.NutrientCount = StartingResources;
         slime.OxygenCount = StartingResources;
+
         UpdateResourceUI();
     }
 
@@ -95,6 +107,15 @@ public class GameManager : MonoBehaviour
         {
             hex.HighlightSpreadable();
         }
+
+        if(slime.MoistureCount >= SpreadMoistureCost && slime.NutrientCount >= SpreadNutrientsCost && slime.OxygenCount >= SpreadOxygenCost)
+        {
+            btnConfirmSpread.interactable = true;
+        }
+        else
+        {
+            btnConfirmSpread.interactable = false;
+        }
     }
 
     public void ConfirmSpreadClick()
@@ -102,6 +123,12 @@ public class GameManager : MonoBehaviour
         if (hexBoard.ActiveHex != null)
         {
             slime.OccupyHex(hexBoard.ActiveHex);
+
+            bool hasSpreadCostUpgrade = slime.UpgradeStatus[Slime.Upgrades.DiscountSpreading];
+            slime.MoistureCount -= (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
+            slime.NutrientCount -= (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
+            slime.OxygenCount -= (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
+
             GoBackToIdleState();
             ClearSpreadableDisplay();
             UpdateResourceUI();
@@ -160,6 +187,12 @@ public class GameManager : MonoBehaviour
         txtMoisture.text = slime.MoistureCount + "(" + (moisture >= 0 ? "+" : "-") + moisture + ")";
         txtNutrients.text = slime.NutrientCount + "(" + (nutrients >= 0 ? "+" : "-") + nutrients + ")";
         txtOxygen.text = slime.OxygenCount + "(" + (oxygen >= 0 ? "+" : "-") + oxygen + ")";
+
+        bool hasSpreadCostUpgrade = slime.UpgradeStatus[Slime.Upgrades.DiscountSpreading];
+
+        txtSpreadMoistureCost.text = "Moisture Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
+        txtSpreadNutrientsCost.text = "Nutrients Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
+        txtSpreadOxygenCost.text = "Oxygen Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
     }
 
     public enum TurnState

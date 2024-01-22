@@ -19,6 +19,8 @@ public class Hex : MonoBehaviour
 
     [SerializeField] Color hexOutlineColorDefault;
     [SerializeField] Color hexOutlineColorHighlighted;
+    [SerializeField] Color hexOutlineColorOccupied;
+    [SerializeField] Color hexOutlineColorSpreadOption;
 
     public Biome Biome { get; private set; }
 
@@ -31,6 +33,7 @@ public class Hex : MonoBehaviour
     public int CurrentMoisture { get; set; }
 
     public bool IsGoal { get; private set; }
+    public bool IsOccupied { get; private set; }
 
 
     private HexCoordinates coordinates;
@@ -56,6 +59,8 @@ public class Hex : MonoBehaviour
         moistureLabel.text = StartingMoisture.ToString();
         goalOutline.enabled = false;
 
+        IsOccupied = false;
+
         name = biome.Name + " " + coordinates.ToString();
         UnHighlight();
     }
@@ -78,8 +83,17 @@ public class Hex : MonoBehaviour
     }
     public void UnHighlight()
     {
-        hexOutline.color = hexOutlineColorDefault;
-        hexOutline.sortingOrder = 2; // Revert to normal cell border priority.
+
+        if (!IsOccupied)
+        {
+            hexOutline.color = hexOutlineColorDefault;
+            hexOutline.sortingOrder = 2; // Revert to normal cell border priority.
+        }
+        else
+        {
+            hexOutline.color = hexOutlineColorOccupied;
+            hexOutline.sortingOrder = 2; // Revert to normal cell border priority.
+        }
     }
 
     public void SetAsGoal()
@@ -93,6 +107,13 @@ public class Hex : MonoBehaviour
         return Utils.GetEnumValues<HexDirection>().Select(
             dir => HexBoard.Active.Hexes.GetValueOrDefault(
                 coordinates.GetAdjacent(dir))).ToList();
+    }
+
+    public void Occupy()
+    {
+        IsOccupied = true;
+        hexOutline.color = hexOutlineColorOccupied;
+
     }
 
     public int AbsorbOxygen(bool hasDrainUpgrade)

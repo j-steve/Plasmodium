@@ -844,6 +844,8 @@ MonoBehaviour:
   goalOutline: {fileID: 3453298014584467959}
   hexOutlineColorDefault: {r: 0.27450982, g: 0.27450982, b: 0.27450982, a: 1}
   hexOutlineColorHighlighted: {r: 1, g: 0, b: 0.9093013, a: 1}
+  hexOutlineColorOccupied: {r: 0, g: 1, b: 0.071077585, a: 0}
+  hexOutlineColorSpreadOption: {r: 0.99765027, g: 1, b: 0, a: 0}
 --- !u!64 &6808396436480955590
 MeshCollider:
   m_ObjectHideFlags: 0

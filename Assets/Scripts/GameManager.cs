@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     Slime slime;
 
     public int CurrentDifficultyLevel;
+    public int TurnNumber;
 
 
     // Start is called before the first frame update
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
 
         hexBoard.GenerateHexBoard();
         CurrentDifficultyLevel = 0;
+        TurnNumber = 0;
     }
 
     public void PlaceSlime(Hex startingTile)
@@ -34,6 +36,15 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetMouseButtonDown(0))
+        {
+            //slime.OccupyHex(hexBoard.ActiveHex);
+        }
+    }
+
+    public void SpreadButtonClick()
+    {
+
 
     }
 }

@@ -38,7 +38,8 @@ public class Slime : MonoBehaviour
     {
         occupiedSpaces.Add(hex);
         Instantiate(slimeModel, new Vector3(hex.transform.position.x, hex.transform.position.y + .5f, hex.transform.position.z), new Quaternion(0f, 0f, 0f, 0f));
-        
+        hex.Occupy();
+
         if (UpgradeStatus[Upgrades.ExtraHexSpore])
         {
             //spawn additional slime

@@ -1,7 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Linq;
+
 
 [RequireComponent(typeof(Renderer))]
 
@@ -73,6 +76,13 @@ public class Hex : MonoBehaviour
     {
         hexOutlineSprite.color = hexOutlineColorDefault;
         hexOutlineSprite.sortingOrder = 2; // Revert to normal cell border priority.
+    }
+
+    public List<Hex> FindNeighbors()
+    {
+        return Utils.GetEnumValues<HexDirection>().Select(
+            dir => HexBoard.Active.Hexes.GetValueOrDefault(
+                coordinates.GetAdjacent(dir))).ToList();
     }
 
     public int AbsorbOxygen(bool hasDrainUpgrade)

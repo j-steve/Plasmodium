@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -66,7 +67,12 @@ public class HexBoard : MonoBehaviour
                 }
             }
         }
+
+        IEnumerable<Hex> boundaryHexes = Hexes.Values.Where(
+            hex => hex.FindNeighbors().Any(x => x == null));
+        Debug.LogFormat("Boundary hexes has {0}", boundaryHexes.ToList().Count());
         gameManager.PlaceSlime(startingTile);
+
     }
 
     void Update()

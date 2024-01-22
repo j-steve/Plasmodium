@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class HexCoordinates
 {
@@ -34,6 +35,29 @@ public class HexCoordinates
         float y = hexHeight * r * 0.75f; // 0.75 accounts for the vertical stacking of hexes
         return new Vector3(x, 0, y);
     }
+
+    public HexCoordinates GetAdjacent(HexDirection direction)
+    {
+        switch (direction)
+        {
+            case HexDirection.NW:
+                return new HexCoordinates(Q, R - 1);
+            case HexDirection.NE:
+                return new HexCoordinates(Q + 1, R - 1);
+            case HexDirection.E:
+                return new HexCoordinates(Q + 1, R);
+            case HexDirection.SE:
+                return new HexCoordinates(Q, R + 1);
+            case HexDirection.SW:
+                return new HexCoordinates(Q - 1, R + 1);
+            case HexDirection.W:
+                return new HexCoordinates(Q - 1, R);
+            default:
+                throw new ArgumentOutOfRangeException("Unknown HexDirection.");
+        }
+
+    }
+
     public override bool Equals(object obj)
     {
         // Check for null and compare run-time types.

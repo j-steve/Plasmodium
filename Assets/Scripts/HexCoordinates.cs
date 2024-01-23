@@ -58,6 +58,36 @@ public class HexCoordinates
 
     }
 
+    public static int GetRotationToHex(Hex hexFrom, Hex hexTo)
+    {
+        if(hexFrom.coordinates.Q == hexTo.coordinates.Q && hexFrom.coordinates.R == hexTo.coordinates.R - 1)
+        {
+            return 210;
+        }
+        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q + 1 && hexFrom.coordinates.R == hexTo.coordinates.R - 1)
+        {
+            return 150;
+        }
+        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q + 1 && hexFrom.coordinates.R == hexTo.coordinates.R)
+        {
+            return 90;
+        }
+        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q && hexFrom.coordinates.R == hexTo.coordinates.R + 1)
+        {
+            return 30;
+        }
+        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q - 1 && hexFrom.coordinates.R == hexTo.coordinates.R + 1)
+        {
+            return 330;
+        }
+        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q - 1 && hexFrom.coordinates.R == hexTo.coordinates.R)
+        {
+            return 270;
+        }
+
+        return 0;
+    }
+
     public override bool Equals(object obj)
     {
         // Check for null and compare run-time types.

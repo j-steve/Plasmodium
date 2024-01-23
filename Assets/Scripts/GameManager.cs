@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         int q = Random.Range(-middleRange, middleRange);
         int r = Random.Range(-middleRange, middleRange);
         Hex startingTile = HexBoard.Active.Hexes[new HexCoordinates(q, r)];*/
-        slime.OccupyHex(startingTile);
+        slime.OccupyHex(startingTile, null);
         UpdateResourceUI();
     }
 
@@ -122,7 +122,16 @@ public class GameManager : MonoBehaviour
     {
         if (hexBoard.ActiveHex != null)
         {
-            slime.OccupyHex(hexBoard.ActiveHex);
+            Hex hexBridgeFrom = null;
+            for(int i = slime.occupiedSpaces.Count -1; i >= 0; i--)
+            {
+                if(slime.occupiedSpaces[i].FindNeighbors().Contains(hexBoard.ActiveHex))
+                {
+                    hexBridgeFrom = slime.occupiedSpaces[i];
+                    break;
+                }
+            }
+            slime.OccupyHex(hexBoard.ActiveHex, hexBridgeFrom);
 
             bool hasSpreadCostUpgrade = slime.UpgradeStatus[Slime.Upgrades.DiscountSpreading];
             slime.MoistureCount -= (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
@@ -156,6 +165,10 @@ public class GameManager : MonoBehaviour
 
         CurrentState = TurnState.StartOfTurn;
         slime.OnTurnStart();
+
+        TurnNumber++;
+
+        UpdateResourceUI();
 
         CurrentState = TurnState.Idle;
     }

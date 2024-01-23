@@ -14,6 +14,7 @@ public class Slime : MonoBehaviour
     public List<Hex> occupiedSpaces { get; private set; }
 
     [SerializeField] GameObject slimeModel;
+    [SerializeField] GameObject slimeBridge;
 
 
     // Start is called before the first frame update
@@ -34,11 +35,18 @@ public class Slime : MonoBehaviour
         
     }
 
-    public void OccupyHex(Hex hex)
+    public void OccupyHex(Hex hex, Hex hexFrom)
     {
         occupiedSpaces.Add(hex);
         Instantiate(slimeModel, new Vector3(hex.transform.position.x, hex.transform.position.y + .5f, hex.transform.position.z), new Quaternion(0f, 0f, 0f, 0f));
         hex.Occupy();
+
+        if(hexFrom != null)
+        {
+            Quaternion rot = new Quaternion(0f, 0f, 0f, 0f);
+            GameObject bridge = Instantiate(slimeBridge, new Vector3(hexFrom.transform.position.x, hexFrom.transform.position.y + .5f, hexFrom.transform.position.z), rot);
+            bridge.transform.Rotate(0f, HexCoordinates.GetRotationToHex(hexFrom, hex), 0f);
+        }
 
         if (UpgradeStatus[Upgrades.ExtraHexSpore])
         {

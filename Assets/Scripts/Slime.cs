@@ -19,6 +19,8 @@ public class Slime : MonoBehaviour
     [SerializeField] GameObject slimeModel;
     [SerializeField] GameObject slimeBridge;
 
+    bool usedHiddenReserves = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,24 +53,21 @@ public class Slime : MonoBehaviour
             bridge.transform.Rotate(0f, HexCoordinates.GetRotationToHex(hexFrom, hex), 0f);
         }
 
-        if (UpgradeStatus[Upgrades.ExtraHexSpore])
-        {
-            //spawn additional slime
-        }
-
         HexBoard.Active.MakeVisibleWihinRange(hex, VisibilityRadius);
-
     }
 
     public void OnTurnStart()
     {
         if (MoistureCount < occupiedSpaces.Count)
         {
-            if (UpgradeStatus[Upgrades.HiddenReserves])
+            if (UpgradeStatus[Upgrades.HiddenReserves] && !usedHiddenReserves)
             {
-                //Don't die, get 1 more turn
+                usedHiddenReserves = true;
             }
-            //Slime dies
+            else
+            {
+                //Game over
+            }
         }
         else
         {
@@ -98,7 +97,7 @@ public class Slime : MonoBehaviour
     {
         SendSpores = 0, 
         ExtraHexSpore = 1, //When the slime spreads to a new hex, a random adjacent hex also gets a slime on it
-        HiddenReserves = 2, //When the slime would die from now moisture, it gets 1 more turn
+        HiddenReserves = 2, 
         GoalFinder = 3, 
         ResourceDrainer = 4, 
         MoistureConserver = 5,

@@ -133,6 +133,16 @@ public class GameManager : MonoBehaviour
             }
             slime.OccupyHex(hexBoard.ActiveHex, hexBridgeFrom);
 
+            if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
+            {
+                List<Hex> neightbors = hexBoard.ActiveHex.FindNeighbors().Where(h => !h.IsOccupied).ToList();
+
+                if (neightbors.Count > 0)
+                {
+                    slime.OccupyHex(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex);
+                }
+            }
+
             bool hasSpreadCostUpgrade = slime.UpgradeStatus[Slime.Upgrades.DiscountSpreading];
             slime.MoistureCount -= (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
             slime.NutrientCount -= (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);

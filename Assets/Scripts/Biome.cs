@@ -8,10 +8,10 @@ public class Biome
 {
     public static List<Biome> BIOMES = new List<Biome>
     {
-        new Biome("Wood", "Brown", 8, 6, 8, 3),
-        new Biome("Leaf", "TealGreen", 2, 3, 5, 4),
-        new Biome("Moss", "Green", 4, 5, 6, -1),
-        new Biome("Stone", "Dark", 7, 7, 9, 2)
+        new Biome("Wood", "Brown", 8, 6, 8, 3, 1),
+        new Biome("Leaf", "TealGreen", 2, 3, 5, 4, 1),
+        new Biome("Moss", "Green", 4, 5, 6, -1, 1),
+        new Biome("Stone", "Dark", 7, 7, 9, 2, 1)
     };
 
 
@@ -21,9 +21,10 @@ public class Biome
     public int Nutrients { get; private set; }
     public int Oxygen { get; private set; }
     public int Temperature { get; private set; }
+    public int Deco { get; private set; }
 
     // Constructor to initialize the Biome
-    public Biome(string name, string materialName, int moisture, int nutrients, int oxygen, int temperature)
+    public Biome(string name, string materialName, int moisture, int nutrients, int oxygen, int temperature, int deco)
     {
         Name = name;
         Material = LoadMaterial(materialName);
@@ -31,7 +32,7 @@ public class Biome
         Nutrients = nutrients;
         Oxygen = oxygen;
         Temperature = temperature;
-
+        Deco = deco;
     }
 
 

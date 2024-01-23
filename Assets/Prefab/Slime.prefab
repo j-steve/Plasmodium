@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 151461597235360004}
   - component: {fileID: 1410202542118180326}
+  - component: {fileID: 5905971962470551211}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -50,3 +51,24 @@ MonoBehaviour:
   minClumps: 20
   maxClumps: 30
   clumpObj: {fileID: 40445027818065711, guid: ec86991c58881734499eacdd17ce994c, type: 3}
+--- !u!95 &5905971962470551211
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3886978053888574330}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e38e74be5dd7a434997c536ed424cb9f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

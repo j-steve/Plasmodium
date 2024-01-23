@@ -803,7 +803,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 6bf5a609223c87947b39bcc032e3ee26, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -837,6 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a87d7a4c3c1560479740790c835763c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiCanvas: {fileID: 7351747919054206501}
   oxygenLabel: {fileID: 1724436206864927112}
   nutrientsLabel: {fileID: 3301845508374430227}
   moistureLabel: {fileID: 3503234861559697903}

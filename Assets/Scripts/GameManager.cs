@@ -72,10 +72,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            //slime.OccupyHex(hexBoard.ActiveHex);
-        }
+
     }
 
     public void UpgradeButtonClick()
@@ -229,6 +226,14 @@ public class GameManager : MonoBehaviour
 
         UpdateResourceUI();
 
+    }
+
+    public void RevealGoals()
+    {
+        foreach(Hex hex in hexBoard.Hexes.Values.Where(h=>h.IsGoal))
+        {
+            hex.RevealFogOfWar();
+        }
     }
 
     public enum TurnState

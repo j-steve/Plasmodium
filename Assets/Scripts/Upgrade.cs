@@ -52,6 +52,8 @@ public class Upgrade : MonoBehaviour
         btnUnlock.enabled = false;
         txtButtonText.text = "Unlocked";
         IsUnlocked = true;
+        if (UpgradeEnum == Upgrades.GoalFinder)
+            GameManager.RevealGoals();
         GameManager.UnlockUpgrade(UpgradeEnum, MoistureCost, NutrientsCost, OxygenCost);
         GameManager.CheckUpgradeCosts();
     }

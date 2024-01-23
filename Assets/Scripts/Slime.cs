@@ -96,12 +96,12 @@ public class Slime : MonoBehaviour
 
     public enum Upgrades
     {
-        SendSpores = 0, //Allows the slime to be able to spread further than just adjacent hexes
+        SendSpores = 0, 
         ExtraHexSpore = 1, //When the slime spreads to a new hex, a random adjacent hex also gets a slime on it
         HiddenReserves = 2, //When the slime would die from now moisture, it gets 1 more turn
-        GoalFinder = 3, //Reveals the goal hexes
-        ResourceDrainer = 4, //Drains 2 of each resource on each hex
-        MoistureConserver = 5, //The slime needs half the amount of moisture at the start of each turn
-        DiscountSpreading = 6 //The cost to spread is halved
+        GoalFinder = 3, 
+        ResourceDrainer = 4, 
+        MoistureConserver = 5,
+        DiscountSpreading = 6 
     }
 }

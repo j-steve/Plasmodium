@@ -144,6 +144,8 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+            CheckForWin();
+
             bool hasSpreadCostUpgrade = slime.UpgradeStatus[Slime.Upgrades.DiscountSpreading];
             slime.MoistureCount -= (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
             slime.NutrientCount -= (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
@@ -153,6 +155,17 @@ public class GameManager : MonoBehaviour
             ClearSpreadableDisplay();
             UpdateResourceUI();
         }
+    }
+
+    public bool CheckForWin()
+    {
+        foreach(Hex hex in hexBoard.Hexes.Values.Where(h=>h.IsGoal))
+        {
+            if (!hex.IsOccupied)
+                return false;
+        }
+
+        return true;
     }
 
     public void ClearSpreadableDisplay()

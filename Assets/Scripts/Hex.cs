@@ -11,6 +11,7 @@ using System.Linq;
 public class Hex : MonoBehaviour
 {
 
+    [SerializeField] Canvas uiCanvas;
     [SerializeField] TextMeshProUGUI oxygenLabel;
     [SerializeField] TextMeshProUGUI nutrientsLabel;
     [SerializeField] TextMeshProUGUI moistureLabel;
@@ -33,12 +34,12 @@ public class Hex : MonoBehaviour
     public int CurrentMoisture { get; set; }
 
     public bool IsGoal { get; private set; }
+    public bool IsRevealed { get; private set; }
     public bool IsOccupied { get; private set; }
 
     public string UniqueID { get; set; }
 
-
-    public HexCoordinates coordinates { get; private set; }
+	public HexCoordinates coordinates { get; private set; }
 
     /// <summary>
     /// Constructs the hex on initial instantiation.
@@ -46,14 +47,13 @@ public class Hex : MonoBehaviour
     public void Initialize(HexCoordinates coordinates, Biome biome, int elevation)
     {
         // Calculate the position for this Hex
-        this.coordinates = coordinates;
+        this.Coordinates = coordinates;
         Vector3 position = coordinates.ToWorldPosition();
         position.y = elevation;
         transform.position = position;
         // Set biome attributes
         Biome = biome;
-        GetComponent<Renderer>().material = biome.Material;
-        StartingOxygen = UnityEngine.Random.Range(biome.Oxygen-1, biome.Oxygen+1);
+        StartingOxygen = UnityEngine.Random.Range(biome.Oxygen - 1, biome.Oxygen + 1);
         StartingNutrients = UnityEngine.Random.Range(biome.Nutrients - 1, biome.Nutrients + 1);
         StartingMoisture = UnityEngine.Random.Range(biome.Moisture - 1, biome.Moisture + 1);
         oxygenLabel.text = StartingOxygen.ToString();
@@ -71,12 +71,7 @@ public class Hex : MonoBehaviour
         name = biome.Name + " " + coordinates.ToString();
         UniqueID = name;
         UnHighlight();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        HideFogOfWar();
     }
 
     public void HighlightSpreadable()
@@ -117,11 +112,24 @@ public class Hex : MonoBehaviour
         goalOutline.enabled = true;
     }
 
+    public void HideFogOfWar()
+    {
+        uiCanvas.gameObject.SetActive(false);
+        IsRevealed = false;
+    }
+
+    public void RevealFogOfWar()
+    {
+        uiCanvas.gameObject.SetActive(true);
+        GetComponent<Renderer>().material = Biome.Material;
+        IsRevealed = true;
+    }
+
     public List<Hex> FindNeighbors()
     {
         return Utils.GetEnumValues<HexDirection>().Select(
             dir => HexBoard.Active.Hexes.GetValueOrDefault(
-                coordinates.GetAdjacent(dir))).ToList();
+                Coordinates.GetAdjacent(dir))).ToList();
     }
 
     public void Occupy()
@@ -135,7 +143,7 @@ public class Hex : MonoBehaviour
     {
         if (hasDrainUpgrade && CurrentOxygen > 1)
         {
-            if(!predictionMode)
+            if (!predictionMode)
                 CurrentOxygen -= 2;
             return 2;
         }

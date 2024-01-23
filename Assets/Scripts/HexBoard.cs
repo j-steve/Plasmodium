@@ -68,6 +68,7 @@ public class HexBoard : MonoBehaviour
         }
         SetGoalHexes();
         gameManager.PlaceSlime(startingTile);
+        CenterCamera(startingTile);
 
     }
 
@@ -82,6 +83,47 @@ public class HexBoard : MonoBehaviour
         {
             Hexes[goalCoord].SetAsGoal();
         }
+    }
+
+    public void MakeVisibleWihinRange(Hex startingHex, int range)
+    {
+        foreach (Hex hex in FindHexesWithinRange(startingHex, range))
+        {
+            hex.RevealFogOfWar();
+        }
+    }
+
+    public List<Hex> FindHexesWithinRange(Hex startingHex, int range)
+    {
+        HexCoordinates startingCoords = startingHex.Coordinates;
+        List<Hex> results = new List<Hex>();
+        for (int dq = -range; dq <= range; dq++)
+        {
+            for (int dr = -range; dr <= range; dr++)
+            {
+                int ds = -dq - dr;
+                if (Mathf.Abs(ds) <= range)
+                {
+                    HexCoordinates coordinates = new HexCoordinates(startingCoords.Q + dq, startingCoords.R + dr);
+                    Hex hex = Hexes.GetValueOrDefault(coordinates);
+                    if (hex != null)
+                    {
+                        results.Add(hex);
+                    }
+                }
+            }
+        }
+        return results;
+    }
+
+
+    void CenterCamera(Hex hex)
+    {
+        Transform cameraTransform = Camera.main.transform;
+        Vector3 newPosition = hex.transform.position;
+        newPosition.y = cameraTransform.position.y;
+        newPosition.z -= 5; // Move camera back so starting hex is centered.
+        cameraTransform.position = newPosition;
     }
 
     void Update()

@@ -9,6 +9,9 @@ public class Slime : MonoBehaviour
     public int NutrientCount { get; set; }
     public int MoistureCount { get; set; }
 
+
+    public int VisibilityRadius = 2;
+
     public Dictionary<Upgrades, bool> UpgradeStatus;
 
     public List<Hex> occupiedSpaces { get; private set; }
@@ -23,7 +26,7 @@ public class Slime : MonoBehaviour
         occupiedSpaces = new List<Hex>();
         UpgradeStatus = new Dictionary<Upgrades, bool>();
 
-        foreach(Upgrades upgrade in Enum.GetValues(typeof(Upgrades)))
+        foreach (Upgrades upgrade in Enum.GetValues(typeof(Upgrades)))
         {
             UpgradeStatus.Add(upgrade, false);
         }
@@ -32,7 +35,7 @@ public class Slime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OccupyHex(Hex hex, Hex hexFrom)
@@ -53,13 +56,15 @@ public class Slime : MonoBehaviour
             //spawn additional slime
         }
 
+        HexBoard.Active.MakeVisibleWihinRange(hex, VisibilityRadius);
+
     }
 
     public void OnTurnStart()
     {
-        if(MoistureCount < occupiedSpaces.Count)
+        if (MoistureCount < occupiedSpaces.Count)
         {
-            if(UpgradeStatus[Upgrades.HiddenReserves])
+            if (UpgradeStatus[Upgrades.HiddenReserves])
             {
                 //Don't die, get 1 more turn
             }
@@ -81,7 +86,7 @@ public class Slime : MonoBehaviour
     public void OnTurnEnd()
     {
         bool hasDrainUpgrade = UpgradeStatus[Upgrades.ResourceDrainer];
-        foreach(Hex hex in occupiedSpaces)
+        foreach (Hex hex in occupiedSpaces)
         {
             OxygenCount += hex.AbsorbOxygen(hasDrainUpgrade, false);
             NutrientCount += hex.AbsorbNutrients(hasDrainUpgrade, false);

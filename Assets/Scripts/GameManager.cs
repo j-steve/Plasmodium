@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
         Active = this;
     }
 
-        // Start is called before the first frame update
+    // Start is called before the first frame update
     void Start()
     {
         hexBoard = GetComponent<HexBoard>();
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             //slime.OccupyHex(hexBoard.ActiveHex);
         }
@@ -86,12 +86,12 @@ public class GameManager : MonoBehaviour
 
         List<Hex> spreadableHexes = new List<Hex>();
 
-        foreach(Hex hex in slime.occupiedSpaces)
+        foreach (Hex hex in slime.occupiedSpaces)
         {
             spreadableHexes.AddRange(hex.FindNeighbors().Where(h => !h.IsOccupied).Except(spreadableHexes));
         }
 
-        if(slime.UpgradeStatus[Slime.Upgrades.SendSpores])
+        if (slime.UpgradeStatus[Slime.Upgrades.SendSpores])
         {
             List<Hex> tempList = new List<Hex>();
             foreach (Hex hex in spreadableHexes)
@@ -103,12 +103,12 @@ public class GameManager : MonoBehaviour
 
         hexBoard.SpreadableHexes = spreadableHexes;
 
-        foreach(Hex hex in spreadableHexes)
+        foreach (Hex hex in spreadableHexes)
         {
             hex.HighlightSpreadable();
         }
 
-        if(slime.MoistureCount >= SpreadMoistureCost && slime.NutrientCount >= SpreadNutrientsCost && slime.OxygenCount >= SpreadOxygenCost)
+        if (slime.MoistureCount >= SpreadMoistureCost && slime.NutrientCount >= SpreadNutrientsCost && slime.OxygenCount >= SpreadOxygenCost)
         {
             btnConfirmSpread.interactable = true;
         }

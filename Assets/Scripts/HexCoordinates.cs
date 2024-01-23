@@ -60,27 +60,27 @@ public class HexCoordinates
 
     public static int GetRotationToHex(Hex hexFrom, Hex hexTo)
     {
-        if(hexFrom.coordinates.Q == hexTo.coordinates.Q && hexFrom.coordinates.R == hexTo.coordinates.R - 1)
+        if(hexFrom.Coordinates.Q == hexTo.Coordinates.Q && hexFrom.Coordinates.R == hexTo.Coordinates.R - 1)
         {
             return 210;
         }
-        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q + 1 && hexFrom.coordinates.R == hexTo.coordinates.R - 1)
+        else if (hexFrom.Coordinates.Q == hexTo.Coordinates.Q + 1 && hexFrom.Coordinates.R == hexTo.Coordinates.R - 1)
         {
             return 150;
         }
-        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q + 1 && hexFrom.coordinates.R == hexTo.coordinates.R)
+        else if (hexFrom.Coordinates.Q == hexTo.Coordinates.Q + 1 && hexFrom.Coordinates.R == hexTo.Coordinates.R)
         {
             return 90;
         }
-        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q && hexFrom.coordinates.R == hexTo.coordinates.R + 1)
+        else if (hexFrom.Coordinates.Q == hexTo.Coordinates.Q && hexFrom.Coordinates.R == hexTo.Coordinates.R + 1)
         {
             return 30;
         }
-        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q - 1 && hexFrom.coordinates.R == hexTo.coordinates.R + 1)
+        else if (hexFrom.Coordinates.Q == hexTo.Coordinates.Q - 1 && hexFrom.Coordinates.R == hexTo.Coordinates.R + 1)
         {
             return 330;
         }
-        else if (hexFrom.coordinates.Q == hexTo.coordinates.Q - 1 && hexFrom.coordinates.R == hexTo.coordinates.R)
+        else if (hexFrom.Coordinates.Q == hexTo.Coordinates.Q - 1 && hexFrom.Coordinates.R == hexTo.Coordinates.R)
         {
             return 270;
         }

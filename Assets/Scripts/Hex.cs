@@ -39,7 +39,7 @@ public class Hex : MonoBehaviour
 
     public string UniqueID { get; set; }
 
-	public HexCoordinates coordinates { get; private set; }
+	public HexCoordinates Coordinates { get; private set; }
 
     /// <summary>
     /// Constructs the hex on initial instantiation.

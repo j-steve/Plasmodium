@@ -4,6 +4,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Slime;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI txtSpreadOxygenCost;
 
     [SerializeField] Button btnConfirmSpread;
+
+    [SerializeField] List<Upgrade> SlimeUpgrades;
 
     public int SpreadMoistureCost;
     public int SpreadNutrientsCost;
@@ -206,6 +209,26 @@ public class GameManager : MonoBehaviour
         txtSpreadMoistureCost.text = "Moisture Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
         txtSpreadNutrientsCost.text = "Nutrients Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
         txtSpreadOxygenCost.text = "Oxygen Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
+    }
+
+    public void CheckUpgradeCosts()
+    {
+        foreach(Upgrade upgrade in SlimeUpgrades)
+        {
+            upgrade.UpdateUnlockability(slime.MoistureCount >= upgrade.MoistureCost && slime.NutrientCount >= upgrade.NutrientsCost && slime.OxygenCount >= upgrade.OxygenCost);
+        }
+    }
+
+    public void UnlockUpgrade(Upgrades upgrade, int moisture, int nutrients, int oxygen)
+    {
+        slime.UpgradeStatus[upgrade] = true;
+
+        slime.MoistureCount -= moisture;
+        slime.NutrientCount -= nutrients;
+        slime.OxygenCount -= oxygen;
+
+        UpdateResourceUI();
+
     }
 
     public enum TurnState

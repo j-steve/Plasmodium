@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI txtMoisture;
     [SerializeField] TextMeshProUGUI txtNutrients;
     [SerializeField] TextMeshProUGUI txtOxygen;
+    [SerializeField] TextMeshProUGUI txtTurn;
 
     [SerializeField] TextMeshProUGUI txtSpreadMoistureCost;
     [SerializeField] TextMeshProUGUI txtSpreadNutrientsCost;
@@ -207,15 +208,16 @@ public class GameManager : MonoBehaviour
             moisture -= slime.occupiedSpaces.Count;
         }
 
-        txtMoisture.text = slime.MoistureCount + "(" + (moisture >= 0 ? "+" : "-") + moisture + ")";
-        txtNutrients.text = slime.NutrientCount + "(" + (nutrients >= 0 ? "+" : "-") + nutrients + ")";
-        txtOxygen.text = slime.OxygenCount + "(" + (oxygen >= 0 ? "+" : "-") + oxygen + ")";
+        txtMoisture.text = slime.MoistureCount + "(" + (moisture >= 0 ? "+" : "") + moisture + ")";
+        txtNutrients.text = slime.NutrientCount + "(" + (nutrients >= 0 ? "+" : "") + nutrients + ")";
+        txtOxygen.text = slime.OxygenCount + "(" + (oxygen >= 0 ? "+" : "") + oxygen + ")";
 
         bool hasSpreadCostUpgrade = slime.UpgradeStatus[Slime.Upgrades.DiscountSpreading];
 
         txtSpreadMoistureCost.text = "Moisture Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
         txtSpreadNutrientsCost.text = "Nutrients Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
         txtSpreadOxygenCost.text = "Oxygen Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
+        txtTurn.text = TurnNumber + "";
     }
 
     public void CheckUpgradeCosts()

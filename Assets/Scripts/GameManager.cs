@@ -154,7 +154,7 @@ public class GameManager : MonoBehaviour
 
             if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
             {
-                List<Hex> neightbors = hexBoard.ActiveHex.FindNeighbors().Where(h => !h.IsOccupied).ToList();
+                List<Hex> neightbors = hexBoard.ActiveHex.FindNeighbors().Where(h => h != null && !h.IsOccupied).ToList();
 
                 if (neightbors.Count > 0)
                 {

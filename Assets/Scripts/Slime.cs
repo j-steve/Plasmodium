@@ -90,6 +90,7 @@ public class Slime : MonoBehaviour
             OxygenCount += hex.AbsorbOxygen(hasDrainUpgrade, false);
             NutrientCount += hex.AbsorbNutrients(hasDrainUpgrade, false);
             MoistureCount += hex.AbsorbMoisture(hasDrainUpgrade, false);
+            hex.UpdateUI();
         }
     }
 

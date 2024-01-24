@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 861649617690580552}
   m_Layer: 0
   m_Name: DecoClover
-  m_TagString: Untagged
+  m_TagString: Deco
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

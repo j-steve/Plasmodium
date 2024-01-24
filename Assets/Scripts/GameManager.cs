@@ -148,12 +148,12 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            CheckForWin();
-
             bool hasSpreadCostUpgrade = slime.UpgradeStatus[Slime.Upgrades.DiscountSpreading];
             slime.MoistureCount -= (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
             slime.NutrientCount -= (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
             slime.OxygenCount -= (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
+
+            CheckForWin();
 
             GoBackToIdleState();
             ClearSpreadableDisplay();
@@ -179,15 +179,39 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool CheckForWin()
+    public void CheckForWin()
     {
         foreach (Hex hex in hexBoard.Hexes.Values.Where(h => h.IsGoal))
         {
             if (!hex.IsOccupied)
-                return false;
+                return;
         }
 
-        return true;
+        foreach (GameObject slime in GameObject.FindGameObjectsWithTag("Slime"))
+        {
+            Destroy(slime);
+        }
+
+        foreach (GameObject bridge in GameObject.FindGameObjectsWithTag("SlimeBridge"))
+        {
+            Destroy(bridge);
+        }
+
+        CurrentState = TurnState.Idle;
+        ClearSpreadableDisplay();
+        slime.occupiedSpaces = new List<Hex>();
+
+        hexBoard.ResetBoard();
+        CurrentDifficultyLevel++;
+        TurnNumber = 0;
+
+       
+        slime.MoistureCount = StartingResources;
+        slime.NutrientCount = StartingResources;
+        slime.OxygenCount = StartingResources;
+
+        UpdateResourceUI();
+
     }
 
     public void ClearSpreadableDisplay()

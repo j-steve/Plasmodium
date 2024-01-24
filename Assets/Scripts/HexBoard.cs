@@ -72,6 +72,29 @@ public class HexBoard : MonoBehaviour
 
     }
 
+    public void ResetBoard()
+    {
+        BoardRadius++;
+        /*foreach (Hex hex in FindObjectsOfType<Hex>())
+        {
+            Destroy(hex.gameObject);
+        }
+        */
+
+        foreach (GameObject hex in GameObject.FindGameObjectsWithTag("Hex"))
+        {
+            Destroy(hex);
+        }
+
+        foreach (GameObject deco in GameObject.FindGameObjectsWithTag("Deco"))
+        {
+            Destroy(deco);
+        }
+
+        Hexes = new Dictionary<HexCoordinates, Hex>();
+        GenerateHexBoard();
+    }
+
     void SetGoalHexes()
     {
         IEnumerable<HexCoordinates> boundaryCoords = Hexes.Keys.Where(key =>

@@ -23,6 +23,10 @@ public class Hex : MonoBehaviour
     [SerializeField] Color hexOutlineColorOccupied;
     [SerializeField] Color hexOutlineColorSpreadOption;
 
+    public GameObject[] Deco;
+
+    public GameObject selectedDeco;
+
     public Biome Biome { get; private set; }
 
     public int StartingOxygen { get; set; }
@@ -63,6 +67,9 @@ public class Hex : MonoBehaviour
         CurrentMoisture = StartingMoisture;
         CurrentNutrients = StartingNutrients;
         CurrentOxygen = StartingOxygen;
+
+        //Instantiate Deco
+        selectedDeco = Instantiate(Deco[biome.Deco], transform.position, Quaternion.identity);
 
         goalOutline.enabled = false;
 
@@ -115,6 +122,7 @@ public class Hex : MonoBehaviour
     public void HideFogOfWar()
     {
         uiCanvas.gameObject.SetActive(false);
+        selectedDeco.SetActive(false);
         IsRevealed = false;
     }
 
@@ -122,6 +130,7 @@ public class Hex : MonoBehaviour
     {
         uiCanvas.gameObject.SetActive(true);
         GetComponent<Renderer>().material = Biome.Material;
+        selectedDeco.SetActive(true);
         IsRevealed = true;
     }
 

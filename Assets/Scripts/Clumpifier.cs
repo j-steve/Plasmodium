@@ -37,5 +37,7 @@ public class Clumpifier : MonoBehaviour
         GameObject newClump = Instantiate(clumpObj, pos, Quaternion.identity, this.gameObject.transform);
         float randScale = Random.Range(minClumpSize, maxClumpSize);
         newClump.transform.localScale = new Vector3(randScale, randScale, randScale);
+        float randrot = Random.Range(0, 360);
+        newClump.transform.Rotate(0, randrot, 0);
     }
 }

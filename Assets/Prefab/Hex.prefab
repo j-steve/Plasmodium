@@ -847,6 +847,12 @@ MonoBehaviour:
   hexOutlineColorHighlighted: {r: 1, g: 0, b: 0.9093013, a: 1}
   hexOutlineColorOccupied: {r: 0, g: 1, b: 0.071077585, a: 1}
   hexOutlineColorSpreadOption: {r: 0, g: 0.94070315, b: 1, a: 1}
+  Deco:
+  - {fileID: 7971818817162619332, guid: e77fac071ee925440bc2c81c3b9e49e3, type: 3}
+  - {fileID: 4062416176614118244, guid: 8acc0bf5113c0d54e9cec2bee9df0995, type: 3}
+  - {fileID: 3197892237504708894, guid: 9058167766e3acd4287ec97b8269315b, type: 3}
+  - {fileID: 6835046832179314203, guid: 142b8e0883583da4e92542eca810f530, type: 3}
+  selectedDeco: {fileID: 0}
 --- !u!64 &6808396436480955590
 MeshCollider:
   m_ObjectHideFlags: 0

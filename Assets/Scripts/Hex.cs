@@ -202,4 +202,10 @@ public class Hex : MonoBehaviour
         return 0;
     }
 
+    public void UpdateUI()
+    {
+        oxygenLabel.text = CurrentOxygen.ToString();
+        nutrientsLabel.text = CurrentNutrients.ToString();
+        moistureLabel.text = CurrentMoisture.ToString();
+    }
 }

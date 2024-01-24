@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
 
         foreach (Hex hex in slime.occupiedSpaces)
         {
-            spreadableHexes.AddRange(hex.FindNeighbors().Where(h => !h.IsOccupied).Except(spreadableHexes));
+            spreadableHexes.AddRange(hex.FindNeighbors().Where(h => h != null && !h.IsOccupied).Except(spreadableHexes));
         }
 
         if (slime.UpgradeStatus[Slime.Upgrades.SendSpores])
@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
             List<Hex> tempList = new List<Hex>();
             foreach (Hex hex in spreadableHexes)
             {
-                tempList.AddRange(hex.FindNeighbors().Where(h => !h.IsOccupied).Except(spreadableHexes).Except(tempList));
+                tempList.AddRange(hex.FindNeighbors().Where(h => h != null && !h.IsOccupied).Except(spreadableHexes).Except(tempList));
             }
             spreadableHexes.AddRange(tempList);
         }
@@ -124,9 +124,9 @@ public class GameManager : MonoBehaviour
         if (hexBoard.ActiveHex != null)
         {
             Hex hexBridgeFrom = null;
-            for(int i = slime.occupiedSpaces.Count -1; i >= 0; i--)
+            for (int i = slime.occupiedSpaces.Count - 1; i >= 0; i--)
             {
-                if(slime.occupiedSpaces[i].FindNeighbors().Contains(hexBoard.ActiveHex))
+                if (slime.occupiedSpaces[i].FindNeighbors().Contains(hexBoard.ActiveHex))
                 {
                     hexBridgeFrom = slime.occupiedSpaces[i];
                     break;
@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
 
     public bool CheckForWin()
     {
-        foreach(Hex hex in hexBoard.Hexes.Values.Where(h=>h.IsGoal))
+        foreach (Hex hex in hexBoard.Hexes.Values.Where(h => h.IsGoal))
         {
             if (!hex.IsOccupied)
                 return false;
@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
 
     public void CheckUpgradeCosts()
     {
-        foreach(Upgrade upgrade in SlimeUpgrades)
+        foreach (Upgrade upgrade in SlimeUpgrades)
         {
             upgrade.UpdateUnlockability(slime.MoistureCount >= upgrade.MoistureCost && slime.NutrientCount >= upgrade.NutrientsCost && slime.OxygenCount >= upgrade.OxygenCost);
         }
@@ -255,7 +255,7 @@ public class GameManager : MonoBehaviour
 
     public void RevealGoals()
     {
-        foreach(Hex hex in hexBoard.Hexes.Values.Where(h=>h.IsGoal))
+        foreach (Hex hex in hexBoard.Hexes.Values.Where(h => h.IsGoal))
         {
             hex.RevealFogOfWar();
         }

@@ -56,7 +56,7 @@ Properties {
 SubShader {
 	Tags
 	{
-		"Queue"="Transparent"
+		"Queue"="Overlay"
 		"IgnoreProjector"="True"
 		"RenderType"="Transparent"
 	}
@@ -73,9 +73,9 @@ SubShader {
 
 	Cull [_CullMode]
 	ZWrite Off
+	ZTest Always
 	Lighting Off
 	Fog { Mode Off }
-	ZTest [unity_GUIZTestMode]
 	Blend One OneMinusSrcAlpha
 	ColorMask [_ColorMask]
 

@@ -8,10 +8,10 @@ public class Biome
 {
     public static List<Biome> BIOMES = new List<Biome>
     {
-        new Biome("Wood", "Brown", 8, 6, 8, 3, 1),
+        new Biome("Wood", "Brown", 8, 6, 8, 3, 0),
         new Biome("Leaf", "TealGreen", 2, 3, 5, 4, 1),
-        new Biome("Moss", "Green", 4, 5, 6, -1, 1),
-        new Biome("Stone", "Dark", 7, 7, 9, 2, 1)
+        new Biome("Moss", "Green", 4, 5, 6, -1, 2),
+        new Biome("Stone", "Dark", 7, 7, 9, 2, 3)
     };
 
 

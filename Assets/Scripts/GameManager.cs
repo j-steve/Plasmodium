@@ -150,25 +150,6 @@ public class GameManager : MonoBehaviour
 
             Score += spread_score;
 
-            //StartCoroutine(Occupy(hexBoard.ActiveHex, hexBridgeFrom));
-
-            if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
-            {
-                List<Hex> neightbors = hexBoard.ActiveHex.FindNeighbors().Where(h => h != null && !h.IsOccupied).ToList();
-
-                if (neightbors.Count > 0)
-                {
-                    //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex));
-                    slime.OccupyHex(neightbors[UnityEngine.Random.Range(0, neightbors.Count)], hexBoard.ActiveHex);
-                    Score += spread_score;
-                }
-            }
-
-            bool hasSpreadCostUpgrade = slime.UpgradeStatus[Slime.Upgrades.DiscountSpreading];
-            slime.MoistureCount -= (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
-            slime.NutrientCount -= (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
-            slime.OxygenCount -= (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
-
             if (hexBoard.ActiveHex.IsGoal)
             {
                 goalsReached += 1;
@@ -179,6 +160,37 @@ public class GameManager : MonoBehaviour
                 }
                 txtGoals.text = System.String.Format("{0}/{1}", goalsReached, NumberOfGoals);
             }
+
+            //StartCoroutine(Occupy(hexBoard.ActiveHex, hexBridgeFrom));
+
+            if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
+            {
+                List<Hex> neightbors = hexBoard.ActiveHex.FindNeighbors().Where(h => h != null && !h.IsOccupied).ToList();
+
+                if (neightbors.Count > 0)
+                {
+                    //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex));
+                    Hex hex2 = neightbors[UnityEngine.Random.Range(0, neightbors.Count)];
+                    slime.OccupyHex(hex2, hexBoard.ActiveHex);
+                    Score += spread_score;
+
+                    if (hex2.IsGoal)
+                    {
+                        goalsReached += 1;
+                        Score += goal_spread_score;
+                        if (goalsReached == NumberOfGoals)
+                        {
+                            WinAndReset();
+                        }
+                        txtGoals.text = System.String.Format("{0}/{1}", goalsReached, NumberOfGoals);
+                    }
+                }
+            }
+
+            bool hasSpreadCostUpgrade = slime.UpgradeStatus[Slime.Upgrades.DiscountSpreading];
+            slime.MoistureCount -= (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
+            slime.NutrientCount -= (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
+            slime.OxygenCount -= (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
 
             GoBackToIdleState();
             ClearSpreadableDisplay();

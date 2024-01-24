@@ -19,7 +19,6 @@ public class HexBoard : MonoBehaviour
     [SerializeField] GameManager gameManager;
 
     [SerializeField] Hex HexPrefab;
-    [SerializeField] int numberOfGoals;
 
     public List<Hex> SpreadableHexes { get; set; }
 
@@ -33,7 +32,7 @@ public class HexBoard : MonoBehaviour
         gameManager = GetComponent<GameManager>();
     }
 
-    public void GenerateHexBoard()
+    public void GenerateHexBoard(int numberOfGoals)
     {
         Material[] materials = Resources.LoadAll<Material>("HexMaterials");
         if (materials.Length == 0)
@@ -66,13 +65,13 @@ public class HexBoard : MonoBehaviour
                 }
             }
         }
-        SetGoalHexes();
+        SetGoalHexes(numberOfGoals);
         gameManager.PlaceSlime(startingTile);
         CenterCamera(startingTile);
 
     }
 
-    public void ResetBoard()
+    public void ResetBoard(int numberOfGoals)
     {
         BoardRadius++;
         /*foreach (Hex hex in FindObjectsOfType<Hex>())
@@ -92,10 +91,10 @@ public class HexBoard : MonoBehaviour
         }
 
         Hexes = new Dictionary<HexCoordinates, Hex>();
-        GenerateHexBoard();
+        GenerateHexBoard(numberOfGoals);
     }
 
-    void SetGoalHexes()
+    void SetGoalHexes(int numberOfGoals)
     {
         IEnumerable<HexCoordinates> boundaryCoords = Hexes.Keys.Where(key =>
         {

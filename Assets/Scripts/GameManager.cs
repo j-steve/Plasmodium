@@ -17,12 +17,17 @@ public class GameManager : MonoBehaviour
     public int TurnNumber;
     public int StartingResources = 5;
 
+    public int NumberOfGoals = 1;
+
+    private int goalsReached = 0;
+
     public TurnState CurrentState;
 
     [SerializeField] TextMeshProUGUI txtMoisture;
     [SerializeField] TextMeshProUGUI txtNutrients;
     [SerializeField] TextMeshProUGUI txtOxygen;
     [SerializeField] TextMeshProUGUI txtTurn;
+    [SerializeField] TextMeshProUGUI txtGoals;
 
     [SerializeField] TextMeshProUGUI txtSpreadMoistureCost;
     [SerializeField] TextMeshProUGUI txtSpreadNutrientsCost;
@@ -47,7 +52,7 @@ public class GameManager : MonoBehaviour
         hexBoard = GetComponent<HexBoard>();
         slime = GetComponent<Slime>();
 
-        hexBoard.GenerateHexBoard();
+        hexBoard.GenerateHexBoard(NumberOfGoals);
         CurrentDifficultyLevel = 0;
         TurnNumber = 0;
         CurrentState = TurnState.Idle;
@@ -153,7 +158,15 @@ public class GameManager : MonoBehaviour
             slime.NutrientCount -= (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
             slime.OxygenCount -= (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
 
-            CheckForWin();
+            if (hexBoard.ActiveHex.IsGoal)
+            {
+                goalsReached += 1;
+                if (goalsReached == NumberOfGoals)
+                {
+                    WinAndReset();
+                }
+                txtGoals.text = System.String.Format("{0}/{1}", goalsReached, NumberOfGoals);
+            }
 
             GoBackToIdleState();
             ClearSpreadableDisplay();
@@ -179,13 +192,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CheckForWin()
+    public void WinAndReset()
     {
-        foreach (Hex hex in hexBoard.Hexes.Values.Where(h => h.IsGoal))
-        {
-            if (!hex.IsOccupied)
-                return;
-        }
 
         foreach (GameObject slime in GameObject.FindGameObjectsWithTag("Slime"))
         {
@@ -201,11 +209,14 @@ public class GameManager : MonoBehaviour
         ClearSpreadableDisplay();
         slime.occupiedSpaces = new List<Hex>();
 
-        hexBoard.ResetBoard();
+
+        NumberOfGoals = NumberOfGoals + 1;
+        goalsReached = 0;
+        hexBoard.ResetBoard(NumberOfGoals);
         CurrentDifficultyLevel++;
         TurnNumber = 0;
 
-       
+
         slime.MoistureCount = StartingResources;
         slime.NutrientCount = StartingResources;
         slime.OxygenCount = StartingResources;

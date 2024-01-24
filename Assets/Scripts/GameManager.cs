@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,12 @@ public class GameManager : MonoBehaviour
     public int CurrentDifficultyLevel;
     public int TurnNumber;
     public int StartingResources = 5;
+    public int Score = 0;
+
+    const int spread_score = 50;
+    const int resource_absorb_score = 10;
+    const int goal_spread_score = 250;
+    const int upgrade_unlock_score = 75;
 
     public int NumberOfGoals = 1;
 
@@ -28,6 +35,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI txtOxygen;
     [SerializeField] TextMeshProUGUI txtTurn;
     [SerializeField] TextMeshProUGUI txtGoals;
+    [SerializeField] TextMeshProUGUI txtScore;
 
     [SerializeField] TextMeshProUGUI txtSpreadMoistureCost;
     [SerializeField] TextMeshProUGUI txtSpreadNutrientsCost;
@@ -140,6 +148,8 @@ public class GameManager : MonoBehaviour
 
             slime.OccupyHex(hexBoard.ActiveHex, hexBridgeFrom);
 
+            Score += spread_score;
+
             //StartCoroutine(Occupy(hexBoard.ActiveHex, hexBridgeFrom));
 
             if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
@@ -149,7 +159,8 @@ public class GameManager : MonoBehaviour
                 if (neightbors.Count > 0)
                 {
                     //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex));
-                    slime.OccupyHex(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex);
+                    slime.OccupyHex(neightbors[UnityEngine.Random.Range(0, neightbors.Count)], hexBoard.ActiveHex);
+                    Score += spread_score;
                 }
             }
 
@@ -161,6 +172,7 @@ public class GameManager : MonoBehaviour
             if (hexBoard.ActiveHex.IsGoal)
             {
                 goalsReached += 1;
+                Score += goal_spread_score;
                 if (goalsReached == NumberOfGoals)
                 {
                     WinAndReset();
@@ -187,7 +199,7 @@ public class GameManager : MonoBehaviour
             if (neightbors.Count > 0)
             {
                 //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex));
-                slime.OccupyHex(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex);
+                slime.OccupyHex(neightbors[UnityEngine.Random.Range(0, neightbors.Count)], hexBoard.ActiveHex);
             }
         }
     }
@@ -221,6 +233,16 @@ public class GameManager : MonoBehaviour
         slime.NutrientCount = StartingResources;
         slime.OxygenCount = StartingResources;
 
+        foreach (Upgrades upgrade in Enum.GetValues(typeof(Upgrades)))
+        {
+            slime.UpgradeStatus[upgrade] = false;
+        }
+
+        foreach (Upgrade upgrade in SlimeUpgrades)
+        {
+            upgrade.Reset();
+        }
+
         UpdateResourceUI();
 
     }
@@ -241,8 +263,11 @@ public class GameManager : MonoBehaviour
 
     public void EndTurnButtonClick()
     {
+        int resourceCount = slime.OxygenCount + slime.NutrientCount + slime.MoistureCount;
         CurrentState = TurnState.EndOfTurn;
         slime.OnTurnEnd();
+
+        Score += (slime.OxygenCount + slime.NutrientCount + slime.MoistureCount - resourceCount) * resource_absorb_score;
 
         CurrentState = TurnState.StartOfTurn;
         slime.OnTurnStart();
@@ -287,7 +312,10 @@ public class GameManager : MonoBehaviour
         txtSpreadMoistureCost.text = "Moisture Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
         txtSpreadNutrientsCost.text = "Nutrients Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
         txtSpreadOxygenCost.text = "Oxygen Cost: " + (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
-        txtTurn.text = TurnNumber + "";
+        txtTurn.text = TurnNumber.ToString();
+        txtScore.text = Score.ToString();
+
+        CheckUpgradeCosts();
     }
 
     public void CheckUpgradeCosts()
@@ -301,13 +329,13 @@ public class GameManager : MonoBehaviour
     public void UnlockUpgrade(Upgrades upgrade, int moisture, int nutrients, int oxygen)
     {
         slime.UpgradeStatus[upgrade] = true;
+        Score += upgrade_unlock_score;
 
         slime.MoistureCount -= moisture;
         slime.NutrientCount -= nutrients;
         slime.OxygenCount -= oxygen;
 
         UpdateResourceUI();
-
     }
 
     public void RevealGoals()

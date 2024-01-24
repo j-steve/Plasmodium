@@ -58,6 +58,13 @@ public class Upgrade : MonoBehaviour
         GameManager.CheckUpgradeCosts();
     }
 
+    public void Reset()
+    {
+        IsUnlocked = false;
+        btnUnlock.enabled = true;
+        txtButtonText.text = "Unlock";
+    }
+
     public void UpdateUnlockability(bool canBeUnlocked)
     {
         if(canBeUnlocked)

@@ -43,12 +43,12 @@ public class Hex : MonoBehaviour
 
     public string UniqueID { get; set; }
 
-	public HexCoordinates Coordinates { get; private set; }
+    public HexCoordinates Coordinates { get; private set; }
 
     /// <summary>
     /// Constructs the hex on initial instantiation.
     /// </summary>
-    public void Initialize(HexCoordinates coordinates, Biome biome, int elevation)
+    public void Initialize(HexCoordinates coordinates, Biome biome, float elevation)
     {
         // Calculate the position for this Hex
         this.Coordinates = coordinates;
@@ -69,7 +69,10 @@ public class Hex : MonoBehaviour
         CurrentOxygen = StartingOxygen;
 
         //Instantiate Deco
-        selectedDeco = Instantiate(Deco[biome.Deco], transform.position, Quaternion.identity);
+        if (biome.Name != "Stone")
+        {
+            selectedDeco = Instantiate(Deco[biome.Deco], transform.position, Quaternion.identity);
+        }
 
         goalOutline.enabled = false;
 
@@ -122,16 +125,23 @@ public class Hex : MonoBehaviour
     public void HideFogOfWar()
     {
         uiCanvas.gameObject.SetActive(false);
-        selectedDeco.SetActive(false);
+        if (selectedDeco != null) selectedDeco.SetActive(false);
         IsRevealed = false;
     }
 
     public void RevealFogOfWar()
     {
-        uiCanvas.gameObject.SetActive(true);
-        GetComponent<Renderer>().material = Biome.Material;
-        selectedDeco.SetActive(true);
-        IsRevealed = true;
+        if (!IsRevealed)
+        {
+            uiCanvas.gameObject.SetActive(true);
+            GetComponent<Renderer>().material = Biome.Material;
+            if (selectedDeco != null) selectedDeco.SetActive(true);
+            if (Biome.Name == "Stone")
+            {
+                transform.position += Vector3.up * 0.4f;
+            }
+            IsRevealed = true;
+        }
     }
 
     public List<Hex> FindNeighbors()
@@ -146,6 +156,9 @@ public class Hex : MonoBehaviour
         IsOccupied = true;
         hexOutline.color = hexOutlineColorOccupied;
         hexOutline.sortingOrder = 4;
+        oxygenLabel.enabled = false;
+        nutrientsLabel.enabled = false;
+        moistureLabel.enabled = false;
     }
 
     public int AbsorbOxygen(bool hasDrainUpgrade, bool predictionMode)

@@ -132,7 +132,10 @@ public class GameManager : MonoBehaviour
                     break;
                 }
             }
+
             slime.OccupyHex(hexBoard.ActiveHex, hexBridgeFrom);
+
+            //StartCoroutine(Occupy(hexBoard.ActiveHex, hexBridgeFrom));
 
             if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
             {
@@ -140,6 +143,7 @@ public class GameManager : MonoBehaviour
 
                 if (neightbors.Count > 0)
                 {
+                    //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex));
                     slime.OccupyHex(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex);
                 }
             }
@@ -154,6 +158,24 @@ public class GameManager : MonoBehaviour
             GoBackToIdleState();
             ClearSpreadableDisplay();
             UpdateResourceUI();
+        }
+    }
+
+    IEnumerator Occupy(Hex to, Hex from)
+    {
+        slime.OccupyHex(to, from);
+
+        yield return new WaitForSeconds(2f);
+
+        if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
+        {
+            List<Hex> neightbors = hexBoard.ActiveHex.FindNeighbors().Where(h => !h.IsOccupied).ToList();
+
+            if (neightbors.Count > 0)
+            {
+                //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex));
+                slime.OccupyHex(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex);
+            }
         }
     }
 

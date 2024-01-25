@@ -10,8 +10,6 @@ public class HexBoard : MonoBehaviour
 {
     public static HexBoard Active;
 
-    public Hex ActiveHex { get; private set; }
-
     public Dictionary<HexCoordinates, Hex> Hexes = new Dictionary<HexCoordinates, Hex>();
 
     public int BoardRadius; // The radius of the board (in hexes)
@@ -146,45 +144,5 @@ public class HexBoard : MonoBehaviour
         newPosition.y = cameraTransform.position.y;
         newPosition.z -= 5; // Move camera back so starting hex is centered.
         cameraTransform.position = newPosition;
-    }
-
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        { // Left Mouse Button
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject hitObject = hit.transform.gameObject;
-                // Check if hitObject is a hex tile, and if so, highlight it
-                if (gameManager.CurrentState == GameManager.TurnState.SpreadingToHex)
-                {
-                    SelectHex(hitObject);
-                }
-            }
-            else
-            {
-                Debug.LogFormat("Hit nothin!");
-            }
-        }
-    }
-    void SelectHex(GameObject gameObject)
-    {
-        if (gameObject != null)
-        {
-            Hex clickedHex = gameObject.GetComponent<Hex>();
-
-            if (clickedHex != null && SpreadableHexes.Contains(clickedHex))
-            {
-                if (ActiveHex != null)
-                {
-                    ActiveHex.UnHighlight();
-                }
-                clickedHex.Highlight();
-                ActiveHex = clickedHex;
-            }
-        }
     }
 }

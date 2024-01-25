@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 
 [RequireComponent(typeof(Renderer))]
@@ -84,18 +85,50 @@ public class Hex : MonoBehaviour
         HideFogOfWar();
     }
 
+    /// <summary>
+    /// Invoked on the first frame that a mouse enters the Hex.
+    /// </summary>
+    void OnMouseEnter()
+    {
+        if (hexOutline.color == hexOutlineColorSpreadOption)
+        {
+            hexOutline.color = hexOutlineColorHighlighted;
+            hexOutline.sortingOrder = 5; // Prioritize this cell border so it's shown on top.
+        }
+    }
+
+
+    /// <summary>
+    /// Invoked every frame that a mouse is over the active Hex.
+    /// </summary>
+    void OnMouseOver()
+    {
+        if (hexOutline.color == hexOutlineColorHighlighted && Input.GetMouseButtonDown(0))
+        {
+            if (!EventSystem.current.IsPointerOverGameObject()) // Ignore if mouse is over UI.
+            {
+                GameManager.Active.ConfirmSpreadClick(this);
+                UnHighlight();
+            }
+        }
+    }
+
+
+    void OnMouseExit()
+    {
+        if (hexOutline.color == hexOutlineColorHighlighted)
+        {
+            HighlightSpreadable();
+        }
+    }
+
+
     public void HighlightSpreadable()
     {
         hexOutline.color = hexOutlineColorSpreadOption;
         hexOutline.sortingOrder = 3; // Prioritize this cell border so it's shown on top.
     }
 
-    public void Highlight()
-    {
-        hexOutline.color = hexOutlineColorHighlighted;
-        hexOutline.sortingOrder = 5; // Prioritize this cell border so it's shown on top.
-
-    }
     public void UnHighlight()
     {
         if (IsOccupied)

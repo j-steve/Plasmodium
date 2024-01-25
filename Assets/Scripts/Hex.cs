@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 
 [RequireComponent(typeof(Renderer))]
@@ -104,8 +105,11 @@ public class Hex : MonoBehaviour
     {
         if (hexOutline.color == hexOutlineColorHighlighted && Input.GetMouseButtonDown(0))
         {
-            GameManager.Active.ConfirmSpreadClick(this);
-            UnHighlight();
+            if (!EventSystem.current.IsPointerOverGameObject()) // Ignore if mouse is over UI.
+            {
+                GameManager.Active.ConfirmSpreadClick(this);
+                UnHighlight();
+            }
         }
     }
 

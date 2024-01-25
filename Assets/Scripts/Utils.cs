@@ -14,6 +14,9 @@ public static class Utils
         return new List<T>((T[])Enum.GetValues(typeof(T)));
     }
 
+    public static bool MasterVolumeSet { get; set; }
+    public static float MasterVolume { get; set; }
+
     /// <summary>
     /// Returns a random element from the array.
     /// </summary>

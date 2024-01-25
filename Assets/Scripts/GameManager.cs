@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Button btnConfirmSpread;
 
     [SerializeField] List<Upgrade> SlimeUpgrades;
+    [SerializeField] AudioSource gameAudio;
 
     public int SpreadMoistureCost;
     public int SpreadNutrientsCost;
@@ -60,6 +61,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameAudio.volume = Utils.MasterVolume;
+
         hexBoard = GetComponent<HexBoard>();
         slime = GetComponent<Slime>();
 

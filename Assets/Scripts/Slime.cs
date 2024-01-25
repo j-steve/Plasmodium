@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Slime : MonoBehaviour
 {
@@ -66,7 +67,7 @@ public class Slime : MonoBehaviour
             }
             else
             {
-                //Game over
+                SceneManager.LoadScene(0, LoadSceneMode.Single);
             }
         }
         else

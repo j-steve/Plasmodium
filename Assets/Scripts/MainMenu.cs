@@ -9,6 +9,13 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Slider volumeSlider;
     [SerializeField] AudioSource mainMenuAudio;
 
+    [SerializeField] Image howToPlayImage;
+    [SerializeField] GameObject btnPrevious;
+    [SerializeField] GameObject btnNext;
+    [SerializeField] List<Sprite> screenShots;
+
+    int currentScreenshot;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,22 +29,53 @@ public class MainMenu : MonoBehaviour
             Utils.MasterVolume = .5f;
             Utils.MasterVolumeSet = true;
         }
+
+        if(screenShots.Count > 0)
+        {
+            currentScreenshot = 0;
+            howToPlayImage.sprite = screenShots[currentScreenshot];
+            btnPrevious.SetActive(false);
+        }
+        else
+        {
+            btnNext.SetActive(false);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void StartNewGame()
     {
-        SceneManager.LoadScene(1,LoadSceneMode.Single);
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 
     public void OnVolumeChange()
     {
         Utils.MasterVolume = volumeSlider.value;
         mainMenuAudio.volume = Utils.MasterVolume;
+    }
+
+    public void OnNext()
+    {
+        howToPlayImage.sprite = screenShots[++currentScreenshot];
+        if(currentScreenshot == 1)
+            btnPrevious.SetActive(true);
+
+        if (currentScreenshot == screenShots.Count - 1)
+            btnNext.SetActive(false);
+    }
+
+    public void OnPrevious()
+    {
+        howToPlayImage.sprite = screenShots[--currentScreenshot];
+        if (currentScreenshot == screenShots.Count - 2)
+            btnNext.SetActive(true);
+
+        if (currentScreenshot == 0)
+            btnPrevious.SetActive(false);
     }
 }

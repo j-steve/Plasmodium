@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI txtSpreadNutrientsCost;
     [SerializeField] TextMeshProUGUI txtSpreadOxygenCost;
 
+    [SerializeField] GameObject panelPaper;
+    [SerializeField] GameObject panelConfirmSpread;
+
     [SerializeField] Button btnConfirmSpread;
 
     [SerializeField] List<Upgrade> SlimeUpgrades;
@@ -132,25 +135,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ConfirmSpreadClick()
+    public void ConfirmSpreadClick(Hex hex)
     {
-        if (hexBoard.ActiveHex != null)
+        if (hex != null)
         {
             Hex hexBridgeFrom = null;
             for (int i = slime.occupiedSpaces.Count - 1; i >= 0; i--)
             {
-                if (slime.occupiedSpaces[i].FindNeighbors().Contains(hexBoard.ActiveHex))
+                if (slime.occupiedSpaces[i].FindNeighbors().Contains(hex))
                 {
                     hexBridgeFrom = slime.occupiedSpaces[i];
                     break;
                 }
             }
 
-            slime.OccupyHex(hexBoard.ActiveHex, hexBridgeFrom);
+            slime.OccupyHex(hex, hexBridgeFrom);
 
             Score += spread_score;
 
-            if (hexBoard.ActiveHex.IsGoal)
+            if (hex.IsGoal)
             {
                 goalsReached += 1;
                 Score += goal_spread_score;
@@ -161,17 +164,17 @@ public class GameManager : MonoBehaviour
                 txtGoals.text = System.String.Format("{0}/{1}", goalsReached, NumberOfGoals);
             }
 
-            //StartCoroutine(Occupy(hexBoard.ActiveHex, hexBridgeFrom));
+            //StartCoroutine(Occupy(hex, hexBridgeFrom));
 
             if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
             {
-                List<Hex> neightbors = hexBoard.ActiveHex.FindNeighbors().Where(h => h != null && !h.IsOccupied).ToList();
+                List<Hex> neightbors = hex.FindNeighbors().Where(h => h != null && !h.IsOccupied).ToList();
 
                 if (neightbors.Count > 0)
                 {
-                    //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex));
+                    //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hex));
                     Hex hex2 = neightbors[UnityEngine.Random.Range(0, neightbors.Count)];
-                    slime.OccupyHex(hex2, hexBoard.ActiveHex);
+                    slime.OccupyHex(hex2, hex);
                     Score += spread_score;
 
                     if (hex2.IsGoal)
@@ -206,12 +209,12 @@ public class GameManager : MonoBehaviour
 
         if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
         {
-            List<Hex> neightbors = hexBoard.ActiveHex.FindNeighbors().Where(h => !h.IsOccupied).ToList();
+            List<Hex> neightbors = to.FindNeighbors().Where(h => !h.IsOccupied).ToList();
 
             if (neightbors.Count > 0)
             {
-                //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hexBoard.ActiveHex));
-                slime.OccupyHex(neightbors[UnityEngine.Random.Range(0, neightbors.Count)], hexBoard.ActiveHex);
+                //StartCoroutine(Occupy(neightbors[Random.Range(0, neightbors.Count)], hex));
+                slime.OccupyHex(neightbors[UnityEngine.Random.Range(0, neightbors.Count)], to);
             }
         }
     }
@@ -266,6 +269,7 @@ public class GameManager : MonoBehaviour
             hex.UnHighlight();
         }
         hexBoard.SpreadableHexes.Clear();
+        HideConfirmSpreadPanel();
     }
 
     public void GoBackToIdleState()
@@ -356,6 +360,12 @@ public class GameManager : MonoBehaviour
         {
             hex.RevealFogOfWar();
         }
+    }
+
+    public void HideConfirmSpreadPanel()
+    {
+        panelPaper.gameObject.SetActive(true);
+        panelConfirmSpread.gameObject.SetActive(false);
     }
 
     public enum TurnState

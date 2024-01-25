@@ -3854,6 +3854,8 @@ MonoBehaviour:
   txtSpreadMoistureCost: {fileID: 692554694}
   txtSpreadNutrientsCost: {fileID: 1075287633}
   txtSpreadOxygenCost: {fileID: 1078331084}
+  panelPaper: {fileID: 1459616726}
+  panelConfirmSpread: {fileID: 1897696876}
   btnConfirmSpread: {fileID: 1185582814}
   SlimeUpgrades:
   - {fileID: 1909552266}
@@ -3985,7 +3987,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1185582813
 RectTransform:
   m_ObjectHideFlags: 0

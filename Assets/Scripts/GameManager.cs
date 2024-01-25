@@ -86,12 +86,6 @@ public class GameManager : MonoBehaviour
         UpdateResourceUI();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void UpgradeButtonClick()
     {
         CurrentState = TurnState.ChoosingUpgrade;

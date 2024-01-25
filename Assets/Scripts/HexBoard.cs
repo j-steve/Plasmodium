@@ -10,8 +10,6 @@ public class HexBoard : MonoBehaviour
 {
     public static HexBoard Active;
 
-    public Hex ActiveHex { get; private set; }
-
     public Dictionary<HexCoordinates, Hex> Hexes = new Dictionary<HexCoordinates, Hex>();
 
     public int BoardRadius; // The radius of the board (in hexes)

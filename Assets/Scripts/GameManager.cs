@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject panelPaper;
     [SerializeField] GameObject panelConfirmSpread;
 
-    [SerializeField] Button btnConfirmSpread;
+    [SerializeField] Button btnSpread;
 
     [SerializeField] List<Upgrade> SlimeUpgrades;
     [SerializeField] AudioSource gameAudio;
@@ -121,15 +121,6 @@ public class GameManager : MonoBehaviour
         {
             hex.HighlightSpreadable();
         }
-
-        if (slime.MoistureCount >= SpreadMoistureCost && slime.NutrientCount >= SpreadNutrientsCost && slime.OxygenCount >= SpreadOxygenCost)
-        {
-            btnConfirmSpread.interactable = true;
-        }
-        else
-        {
-            btnConfirmSpread.interactable = false;
-        }
     }
 
     public void ConfirmSpreadClick(Hex hex)
@@ -191,6 +182,15 @@ public class GameManager : MonoBehaviour
             slime.MoistureCount -= (hasSpreadCostUpgrade ? ((int)(SpreadMoistureCost / 2)) : SpreadMoistureCost);
             slime.NutrientCount -= (hasSpreadCostUpgrade ? ((int)(SpreadNutrientsCost / 2)) : SpreadNutrientsCost);
             slime.OxygenCount -= (hasSpreadCostUpgrade ? ((int)(SpreadOxygenCost / 2)) : SpreadOxygenCost);
+
+            if (slime.MoistureCount >= SpreadMoistureCost && slime.NutrientCount >= SpreadNutrientsCost && slime.OxygenCount >= SpreadOxygenCost)
+            {
+                btnSpread.interactable = true;
+            }
+            else
+            {
+                btnSpread.interactable = false;
+            }
 
             GoBackToIdleState();
             ClearSpreadableDisplay();
@@ -281,6 +281,15 @@ public class GameManager : MonoBehaviour
         slime.OnTurnEnd();
 
         Score += (slime.OxygenCount + slime.NutrientCount + slime.MoistureCount - resourceCount) * resource_absorb_score;
+
+        if (slime.MoistureCount >= SpreadMoistureCost && slime.NutrientCount >= SpreadNutrientsCost && slime.OxygenCount >= SpreadOxygenCost)
+        {
+            btnSpread.interactable = true;
+        }
+        else
+        {
+            btnSpread.interactable = false;
+        }
 
         CurrentState = TurnState.StartOfTurn;
         slime.OnTurnStart();

@@ -32,6 +32,10 @@ public class Upgrade : MonoBehaviour
     {
         IsUnlocked = false;
 
+        MoistureCost = Random.Range(2, 5);
+        OxygenCost = Random.Range(2, 5);
+        NutrientsCost = Random.Range(2, 5);
+
         txtUpgradeName.text = UpgradeName;
         txtUpgradeDescription.text = UpgradeDescription;
         txtMoistureCost.text = "Moisture Cost: " + MoistureCost;

@@ -44,14 +44,26 @@ public class Slime : MonoBehaviour
     public void OccupyHex(Hex hex, Hex hexFrom)
     {
         occupiedSpaces.Add(hex);
-        Instantiate(slimeModel, new Vector3(hex.transform.position.x, hex.transform.position.y + .5f, hex.transform.position.z), new Quaternion(0f, 0f, 0f, 0f));
+        float yDif = hex.Biome.Name == "Stone" ? .4f : .2f;
+
+        Instantiate(slimeModel, new Vector3(hex.transform.position.x, hex.transform.position.y + yDif, hex.transform.position.z), new Quaternion(0f, 0f, 0f, 0f));
         hex.Occupy();
 
         if(hexFrom != null)
         {
+            float xDif = 0;
+            if(hexFrom.Biome.Name == "Stone" && hex.Biome.Name != "Stone")
+            {
+               xDif = -15f;
+            }
+            else if(hex.Biome.Name == "Stone" && hexFrom.Biome.Name != "Stone")
+            {
+                xDif = 15f;
+            }
+
             Quaternion rot = new Quaternion(0f, 0f, 0f, 0f);
-            GameObject bridge = Instantiate(slimeBridge, new Vector3(hexFrom.transform.position.x, hexFrom.transform.position.y + .5f, hexFrom.transform.position.z), rot);
-            bridge.transform.Rotate(0f, HexCoordinates.GetRotationToHex(hexFrom, hex), 0f);
+            GameObject bridge = Instantiate(slimeBridge, new Vector3(hexFrom.transform.position.x, hexFrom.transform.position.y + .3f, hexFrom.transform.position.z), rot);
+            bridge.transform.Rotate(xDif, HexCoordinates.GetRotationToHex(hexFrom, hex), 0f);
         }
 
         HexBoard.Active.MakeVisibleWihinRange(hex, VisibilityRadius);

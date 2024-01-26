@@ -79,7 +79,7 @@ public class Slime : MonoBehaviour
             }
             else
             {
-                SceneManager.LoadScene(0, LoadSceneMode.Single);
+                GameManager.Active.GameOver();
             }
         }
         else

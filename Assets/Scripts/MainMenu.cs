@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +14,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField] GameObject btnPrevious;
     [SerializeField] GameObject btnNext;
     [SerializeField] List<Sprite> screenShots;
-
+    [SerializeField] TextMeshProUGUI txtDescription;
+    [SerializeField] List<string> descriptions;
+ 
     int currentScreenshot;
 
     // Start is called before the first frame update
@@ -34,6 +37,7 @@ public class MainMenu : MonoBehaviour
         {
             currentScreenshot = 0;
             howToPlayImage.sprite = screenShots[currentScreenshot];
+            txtDescription.text = descriptions[currentScreenshot];
             btnPrevious.SetActive(false);
         }
         else
@@ -62,7 +66,9 @@ public class MainMenu : MonoBehaviour
     public void OnNext()
     {
         howToPlayImage.sprite = screenShots[++currentScreenshot];
-        if(currentScreenshot == 1)
+        txtDescription.text = descriptions[currentScreenshot];
+
+        if (currentScreenshot == 1)
             btnPrevious.SetActive(true);
 
         if (currentScreenshot == screenShots.Count - 1)
@@ -72,6 +78,8 @@ public class MainMenu : MonoBehaviour
     public void OnPrevious()
     {
         howToPlayImage.sprite = screenShots[--currentScreenshot];
+        txtDescription.text = descriptions[currentScreenshot];
+
         if (currentScreenshot == screenShots.Count - 2)
             btnNext.SetActive(true);
 

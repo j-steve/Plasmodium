@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static Slime;
 
@@ -43,6 +44,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] GameObject panelPaper;
     [SerializeField] GameObject panelConfirmSpread;
+    [SerializeField] GameObject panelAbilities;
+    [SerializeField] GameObject panelGameOver;
 
     [SerializeField] Button btnSpread;
 
@@ -206,7 +209,7 @@ public class GameManager : MonoBehaviour
 
         if (slime.UpgradeStatus[Upgrades.ExtraHexSpore])
         {
-            List<Hex> neightbors = to.FindNeighbors().Where(h => !h.IsOccupied).ToList();
+            List<Hex> neightbors = to.FindNeighbors().Where(h => h != null && !h.IsOccupied).ToList();
 
             if (neightbors.Count > 0)
             {
@@ -299,6 +302,17 @@ public class GameManager : MonoBehaviour
         UpdateResourceUI();
 
         CurrentState = TurnState.Idle;
+    }
+
+    public void GameOver()
+    {
+        panelAbilities.SetActive(false);
+        panelGameOver.SetActive(true);
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
 
     public void UpdateResourceUI()
